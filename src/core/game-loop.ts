@@ -1,4 +1,5 @@
 import { PlayerEntity } from "../entities/player.entity";
+import { AnimationSystem } from "../systems/animation.system";
 import { InputProcessingSystem } from "../systems/input-processing.system";
 import { InputSystem } from "../systems/input.system";
 import { MovementSystem } from "../systems/movement.system";
@@ -16,12 +17,13 @@ export class GameLoop {
     this.engine.addSystem(new InputProcessingSystem());
     this.engine.addSystem(new MovementSystem());
     this.engine.addSystem(new RenderingSystem(this.context));
+    this.engine.addSystem(new AnimationSystem());
   }
 
   loop(time: number = 0) {
-    const deltaTime = time - this.lastTime / 1000;
-    this.lastTime = deltaTime;
+    const deltaTime = (time - this.lastTime) / 1000;
     this.engine.update(deltaTime);
+    this.lastTime = time;
     requestAnimationFrame(this.loop.bind(this));
   }
 }

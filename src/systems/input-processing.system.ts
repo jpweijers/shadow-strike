@@ -5,8 +5,10 @@ import { System } from "./system";
 
 export class InputProcessingSystem extends System {
   update(entities: Entity[]) {
-    const inputEntities = entities.filter((entity) =>
-      entity.hasComponents([InputComponent, VelocityComponent]),
+    const inputEntities = entities.filter(
+      (entity) =>
+        entity.hasComponent(InputComponent) &&
+        entity.hasComponent(VelocityComponent),
     );
 
     inputEntities.forEach((entity) => {

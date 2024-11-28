@@ -12,18 +12,20 @@ export class Entity {
     this.components.set(component.constructor.name, component);
   }
 
-  getComponent<T extends Component, A>(
-    componentType: new (...args: A[]) => T,
+  getComponent<T extends Component, Args extends unknown[]>(
+    componentType: new (...args: Args) => T,
   ): T {
     return this.components.get(componentType.name) as T;
   }
 
-  hasComponent<A>(componentType: new (...args: A[]) => Component): boolean {
+  hasComponent<Args extends unknown[]>(
+    componentType: new (...args: Args) => Component,
+  ): boolean {
     return this.components.has(componentType.name);
   }
 
-  hasComponents<A>(
-    componentTypes: Array<new (...args: A[]) => Component>,
+  hasComponents<Args extends unknown[]>(
+    componentTypes: Array<new (...args: Args) => Component>,
   ): boolean {
     return componentTypes.every((componentType) =>
       this.hasComponent(componentType),

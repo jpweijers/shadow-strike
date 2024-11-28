@@ -17,5 +17,7 @@ window.addEventListener("load", () => {
     throw new Error("Canvas context not found");
   }
 
-  new GameLoop(ctx).loop();
+  ctx.strokeStyle = "red";
+
+  new GameLoop(ctx).loop(0);
 });
