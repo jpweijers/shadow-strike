@@ -19,16 +19,16 @@ export class InputProcessingSystem extends System {
       velocity.dy = 0;
 
       if (input.isKeyDown("w")) {
-        velocity.dy = -1;
+        velocity.dy = -velocity.speed;
       }
       if (input.isKeyDown("s")) {
-        velocity.dy = 1;
+        velocity.dy = velocity.speed;
       }
       if (input.isKeyDown("a")) {
-        velocity.dx = -1;
+        velocity.dx = -velocity.speed;
       }
       if (input.isKeyDown("d")) {
-        velocity.dx = 1;
+        velocity.dx = velocity.speed;
       }
     });
   }

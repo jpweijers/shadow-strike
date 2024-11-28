@@ -2,6 +2,7 @@ import { PlayerEntity } from "../entities/player.entity";
 import { AnimationSystem } from "../systems/animation.system";
 import { InputProcessingSystem } from "../systems/input-processing.system";
 import { InputSystem } from "../systems/input.system";
+import { MovementStateSystem } from "../systems/movement-state.system";
 import { MovementSystem } from "../systems/movement.system";
 import { RenderingSystem } from "../systems/rendering.system";
 import { Engine } from "./engine";
@@ -16,8 +17,10 @@ export class GameLoop {
     this.engine.addSystem(new InputSystem(this.engine));
     this.engine.addSystem(new InputProcessingSystem());
     this.engine.addSystem(new MovementSystem());
-    this.engine.addSystem(new RenderingSystem(this.context));
     this.engine.addSystem(new AnimationSystem());
+    this.engine.addSystem(new MovementStateSystem());
+
+    this.engine.addSystem(new RenderingSystem(this.context));
   }
 
   loop(time: number = 0) {

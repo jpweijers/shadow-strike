@@ -8,6 +8,7 @@ import { VelocityComponent } from "../components/velocity.component";
 import { Entity } from "./entity";
 
 const idleImage = document.getElementById("player-idle") as HTMLImageElement;
+const walkImage = document.getElementById("player-walk") as HTMLImageElement;
 
 const animations: { [key: string]: AnimatedSprite } = {
   idle: {
@@ -21,13 +22,24 @@ const animations: { [key: string]: AnimatedSprite } = {
     anchor: { x: -34, y: -128 },
     loop: true,
   },
+  walk: {
+    image: walkImage,
+    frameWidth: 128,
+    frameHeight: 128,
+    frameCount: 4,
+    frameDuration: 60 / 1000,
+    scale: 2,
+    currentFrame: 0,
+    anchor: { x: -60, y: -128 },
+    loop: true,
+  },
 };
 
 export class PlayerEntity extends Entity {
   constructor() {
     super("player");
     this.addComponent(new PositionComponent(500, 500));
-    this.addComponent(new VelocityComponent(0, 0));
+    this.addComponent(new VelocityComponent(0, 0, 2));
     this.addComponent(new InputComponent());
     this.addComponent(new AnimatedSpriteComponent("idle", animations));
   }
