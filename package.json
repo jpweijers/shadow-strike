@@ -1,0 +1,24 @@
+{
+  "name": "shadow-strike-ecs",
+  "packageManager": "yarn@4.4.1",
+  "scripts": {
+    "start": "rm -rf .parcel-cache && parcel src/index.html",
+    "build": "rm -rf .parcel-cache && parcel build src/index.html",
+    "lint": "eslint ./src/**/*.ts",
+    "check": "tsc --noEmit",
+    "ci": "yarn check && yarn lint",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "@parcel/config-default": "^2.13.2",
+    "@parcel/core": "^2.13.2",
+    "@parcel/transformer-typescript-tsc": "^2.13.2",
+    "@parcel/validator-typescript": "^2.13.2",
+    "eslint": "^9.15.0",
+    "husky": "^9.1.7",
+    "parcel": "^2.13.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.16.0"
+  }
+}
