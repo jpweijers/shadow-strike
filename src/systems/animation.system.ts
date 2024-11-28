@@ -22,7 +22,7 @@ export class AnimationSystem extends System {
           if (animation.loop) {
             animation.currentFrame = 0;
           } else {
-            animation.currentFrame = animation.frameCount - 1;
+            animation.currentFrame = animation.frameCount;
           }
         }
       }

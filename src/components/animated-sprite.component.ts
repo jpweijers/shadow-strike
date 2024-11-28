@@ -53,13 +53,14 @@ export class AnimatedSpriteComponent extends Component {
 
     this._state = state;
     this._elapsedTime = 0;
+    this.animations[this._state].currentFrame = 0;
   }
 
   isDone(): boolean {
     return (
       this.animation.loop === false &&
       this.animations[this._state].currentFrame ===
-        this.animations[this._state].frameCount - 1
+        this.animations[this._state].frameCount
     );
   }
 }

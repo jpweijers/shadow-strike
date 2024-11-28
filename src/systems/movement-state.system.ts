@@ -16,11 +16,15 @@ export class MovementStateSystem extends System {
       const velocity = entity.getComponent(VelocityComponent);
       const animatedSprite = entity.getComponent(AnimatedSpriteComponent);
 
-      if (velocity.dx === 0 && velocity.dy === 0) {
-        animatedSprite.changeAnimation("idle");
+      if (velocity.dx !== 0 || velocity.dy !== 0) {
+        animatedSprite.changeAnimation("walk");
         return;
       }
-      animatedSprite.changeAnimation("walk");
+      if (animatedSprite.state.includes("attack") && !animatedSprite.isDone()) {
+        return;
+      }
+
+      animatedSprite.changeAnimation("idle");
     });
   }
 }
