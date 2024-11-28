@@ -1,11 +1,12 @@
+import { GameLoop } from "./core/game-loop";
 import { isNullOrUndefined } from "./utils/helpers";
 
 window.addEventListener("load", () => {
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
-  //if (isNullOrUndefined(canvas)) {
-  //  throw new Error("Canvas not found");
-  //}
+  if (isNullOrUndefined(canvas)) {
+    throw new Error("Canvas not found");
+  }
 
   canvas.width = 1280;
   canvas.height = 720;
@@ -16,7 +17,5 @@ window.addEventListener("load", () => {
     throw new Error("Canvas context not found");
   }
 
-  ctx.arc(100, 100, 50, 0, 2 * Math.PI);
-  ctx.fillStyle = "red";
-  ctx.fill();
+  new GameLoop(ctx).loop();
 });

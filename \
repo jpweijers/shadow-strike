@@ -1,0 +1,12 @@
+import { PositionComponent } from "../components/position.component";
+import { VelocityComponent } from "../components/velocity.component";
+import { Entity } from "../entities/entity";
+import { System } from "./system";
+
+export class MovementSystem extends System {
+  update(entities: Entity[]) {
+    const moveableEntities = entities.filter((entity) =>
+      entity.hasComponents([PositionComponent, VelocityComponent]),
+    );
+  }
+}
