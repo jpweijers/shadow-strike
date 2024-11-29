@@ -16,6 +16,7 @@ export class AnimatedSpriteComponent extends Component {
   private _elapsedTime: number = 0;
   private _state: string = "idle";
   private animations: { [key: string]: AnimatedSprite };
+  private _mirror: boolean = false;
 
   get state(): string {
     return this._state;
@@ -31,6 +32,10 @@ export class AnimatedSpriteComponent extends Component {
 
   get animation(): AnimatedSprite {
     return this.animations[this._state];
+  }
+
+  get mirror(): boolean {
+    return this._mirror;
   }
 
   constructor(
@@ -54,6 +59,15 @@ export class AnimatedSpriteComponent extends Component {
     this._state = state;
     this._elapsedTime = 0;
     this.animations[this._state].currentFrame = 0;
+  }
+
+  changeDirection(direction: "left" | "right"): void {
+    if (direction === "right" && this._mirror) {
+      this._mirror = false;
+    }
+    if (direction === "left" && !this._mirror) {
+      this._mirror = true;
+    }
   }
 
   isDone(): boolean {

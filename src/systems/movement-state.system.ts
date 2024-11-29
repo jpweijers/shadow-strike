@@ -18,6 +18,12 @@ export class MovementStateSystem extends System {
 
       if (velocity.dx !== 0 || velocity.dy !== 0) {
         animatedSprite.changeAnimation("walk");
+        if (velocity.dx > 0) {
+          animatedSprite.changeDirection("right");
+        }
+        if (velocity.dx < 0) {
+          animatedSprite.changeDirection("left");
+        }
         return;
       }
       if (animatedSprite.state.includes("attack") && !animatedSprite.isDone()) {

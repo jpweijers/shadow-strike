@@ -23,6 +23,7 @@ export class RenderingSystem extends System {
     const renderingStack: {
       position: PositionComponent;
       sprite: AnimatedSprite;
+      mirror?: boolean;
     }[] = [];
 
     renderingEntities.forEach((entity) => {
@@ -31,16 +32,26 @@ export class RenderingSystem extends System {
       renderingStack.push({
         position,
         sprite: animatedSprite.animation,
+        mirror: animatedSprite.mirror,
       });
     });
 
     renderingStack.sort((a, b) => a.position.y - b.position.y);
-    renderingStack.forEach(({ position, sprite }) => {
-      this.render(position, sprite);
+    renderingStack.forEach(({ position, sprite, mirror }) => {
+      this.render(position, sprite, mirror);
     });
   }
 
-  private render(position: PositionComponent, sprite: AnimatedSprite) {
+  private render(
+    position: PositionComponent,
+    sprite: AnimatedSprite,
+    mirror: boolean = false,
+  ) {
+    this.context.save();
+    if (mirror) {
+      this.context.scale(-1, 1);
+      position.x *= -1;
+    }
     this.context.drawImage(
       sprite.image,
       sprite.currentFrame * sprite.frameWidth,
@@ -55,6 +66,10 @@ export class RenderingSystem extends System {
     this.context.beginPath();
     this.context.arc(position.x, position.y, 20, 0, Math.PI * 2);
     this.context.stroke();
+    if (mirror) {
+      position.x *= -1;
+    }
+    this.context.restore();
   }
 
   private clear() {
