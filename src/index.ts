@@ -18,7 +18,7 @@ window.addEventListener("load", () => {
   }
 
   ctx.strokeStyle = "red";
-  ctx.fillStyle = "red";
+  ctx.fillStyle = "white";
   ctx.font = "12px Arial";
 
   new GameLoop(ctx).loop(0);

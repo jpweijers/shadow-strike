@@ -20,7 +20,6 @@ export class BackgroundComponent extends Component {
   }
 
   update() {
-    console.log("BackgroundComponent update");
     this.layers.forEach((layer) => {
       layer.offsetX -= layer.speed;
       if (layer.offsetX <= -this.width) {

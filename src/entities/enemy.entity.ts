@@ -19,7 +19,7 @@ const deadImage = window.document.getElementById(
   "enemy-dead",
 ) as HTMLImageElement;
 
-const animations: { [key: string]: AnimatedSprite } = {
+const animations = (): { [key: string]: AnimatedSprite } => ({
   idle: {
     image: idleImage,
     frameWidth: 128,
@@ -53,14 +53,16 @@ const animations: { [key: string]: AnimatedSprite } = {
     anchor: { x: -64, y: -128 },
     loop: false,
   },
-};
+});
 
 export class EnemyEntity extends Entity {
   constructor() {
     super();
-    this.addComponent(new PositionComponent(700, 500));
+    const x = Math.floor(Math.random() * 1280);
+    const y = Math.floor(Math.random() * (720 - 500) + 500);
+    this.addComponent(new PositionComponent(x, y));
     this.addComponent(new VelocityComponent(0, 0));
-    this.addComponent(new AnimatedSpriteComponent(animations));
+    this.addComponent(new AnimatedSpriteComponent(animations()));
     this.addComponent(new StateComponent("idle"));
     this.addComponent(new ColliderComponent(700, 700, 20));
     this.addComponent(new HealthComponent(100, 100));

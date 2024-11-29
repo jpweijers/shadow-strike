@@ -25,8 +25,8 @@ export class HealthRenderingSystem extends System {
   private render(position: PositionComponent, health: HealthComponent): void {
     this.context.fillText(
       `${health.currentHealth}/${health.maxHealth}`,
-      position.x,
-      position.y + 35,
+      position.x - 24,
+      position.y - 158,
     );
   }
 }

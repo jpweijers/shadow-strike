@@ -1,22 +1,30 @@
+import { BoundaryComponent } from "../components/boundary.component";
 import { ColliderComponent } from "../components/collider.component";
 import { PositionComponent } from "../components/position.component";
 import { VelocityComponent } from "../components/velocity.component";
 import { Entity } from "../entities/entity";
-import { isNullOrUndefined } from "../utils/helpers";
+import { isDefined, isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class MovementSystem extends System {
   update(entities: Entity[]) {
-    const moveableEntities = entities.filter((entity) =>
-      entity.hasComponents([PositionComponent, VelocityComponent]),
-    );
-
-    moveableEntities.forEach((entity) => {
+    entities.forEach((entity) => {
       const position = entity.getComponent(PositionComponent);
       const velocity = entity.getComponent(VelocityComponent);
       const collider = entity.getComponent(ColliderComponent);
+      const boundary = entity.getComponent(BoundaryComponent);
 
       if (isNullOrUndefined(position) || isNullOrUndefined(velocity)) {
+        return;
+      }
+
+      if (
+        isDefined(boundary) &&
+        !boundary.isInBoundary(
+          position.x + velocity.dx,
+          position.y + velocity.dy,
+        )
+      ) {
         return;
       }
 
