@@ -3,7 +3,9 @@ import {
   AnimatedSpriteComponent,
 } from "../components/animated-sprite.component";
 import { PositionComponent } from "../components/position.component";
+import { StateComponent } from "../components/state.component";
 import { Entity } from "../entities/entity";
+import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class RenderingSystem extends System {
@@ -17,7 +19,8 @@ export class RenderingSystem extends System {
     const renderingEntities = entities.filter(
       (entity) =>
         entity.hasComponent(PositionComponent) &&
-        entity.hasComponent(AnimatedSpriteComponent),
+        entity.hasComponent(AnimatedSpriteComponent) &&
+        entity.hasComponent(StateComponent),
     );
 
     const renderingStack: {
@@ -29,9 +32,19 @@ export class RenderingSystem extends System {
     renderingEntities.forEach((entity) => {
       const position = entity.getComponent(PositionComponent);
       const animatedSprite = entity.getComponent(AnimatedSpriteComponent);
+      const state = entity.getComponent(StateComponent);
+
+      if (
+        isNullOrUndefined(position) ||
+        isNullOrUndefined(animatedSprite) ||
+        isNullOrUndefined(state)
+      ) {
+        return;
+      }
+
       renderingStack.push({
         position,
-        sprite: animatedSprite.animation,
+        sprite: animatedSprite.getAnimation(),
         mirror: animatedSprite.mirror,
       });
     });
@@ -47,6 +60,9 @@ export class RenderingSystem extends System {
     sprite: AnimatedSprite,
     mirror: boolean = false,
   ) {
+    if (isNullOrUndefined(sprite)) {
+      return;
+    }
     this.context.save();
     if (mirror) {
       this.context.scale(-1, 1);
@@ -63,9 +79,6 @@ export class RenderingSystem extends System {
       sprite.frameWidth * sprite.scale,
       sprite.frameHeight * sprite.scale,
     );
-    this.context.beginPath();
-    this.context.arc(position.x, position.y, 20, 0, Math.PI * 2);
-    this.context.stroke();
     if (mirror) {
       position.x *= -1;
     }

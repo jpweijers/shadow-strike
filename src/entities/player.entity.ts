@@ -4,6 +4,7 @@ import {
 } from "../components/animated-sprite.component";
 import { InputComponent } from "../components/input.component";
 import { PositionComponent } from "../components/position.component";
+import { StateComponent } from "../components/state.component";
 import { VelocityComponent } from "../components/velocity.component";
 import { Entity } from "./entity";
 
@@ -79,10 +80,11 @@ const animations: { [key: string]: AnimatedSprite } = {
 
 export class PlayerEntity extends Entity {
   constructor() {
-    super("player");
+    super();
     this.addComponent(new PositionComponent(500, 500));
     this.addComponent(new VelocityComponent(0, 0, 2));
     this.addComponent(new InputComponent());
-    this.addComponent(new AnimatedSpriteComponent("idle", animations));
+    this.addComponent(new AnimatedSpriteComponent(animations));
+    this.addComponent(new StateComponent("idle"));
   }
 }

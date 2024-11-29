@@ -1,6 +1,8 @@
 import { AnimatedSpriteComponent } from "../components/animated-sprite.component";
+import { StateComponent } from "../components/state.component";
 import { VelocityComponent } from "../components/velocity.component";
 import { Entity } from "../entities/entity";
+import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class MovementStateSystem extends System {
@@ -8,16 +10,26 @@ export class MovementStateSystem extends System {
     const movementEntities = entities.filter((entity) => {
       return (
         entity.hasComponent(AnimatedSpriteComponent) &&
-        entity.hasComponent(VelocityComponent)
+        entity.hasComponent(VelocityComponent) &&
+        entity.hasComponent(StateComponent)
       );
     });
 
     movementEntities.forEach((entity) => {
       const velocity = entity.getComponent(VelocityComponent);
       const animatedSprite = entity.getComponent(AnimatedSpriteComponent);
+      const state = entity.getComponent(StateComponent);
+
+      if (
+        isNullOrUndefined(velocity) ||
+        isNullOrUndefined(animatedSprite) ||
+        isNullOrUndefined(state)
+      ) {
+        return;
+      }
 
       if (velocity.dx !== 0 || velocity.dy !== 0) {
-        animatedSprite.changeAnimation("walk");
+        state.changeState("walk");
         if (velocity.dx > 0) {
           animatedSprite.changeDirection("right");
         }
@@ -26,11 +38,12 @@ export class MovementStateSystem extends System {
         }
         return;
       }
-      if (animatedSprite.state.includes("attack") && !animatedSprite.isDone()) {
+
+      if (state.isAttacking() && !animatedSprite.isDone()) {
         return;
       }
 
-      animatedSprite.changeAnimation("idle");
+      state.changeState("idle");
     });
   }
 }

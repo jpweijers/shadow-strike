@@ -7,3 +7,7 @@ export const isNullOrUndefined = <T>(
 export const isDefined = <T>(value: T): value is T => {
   return !isNullOrUndefined(value);
 };
+
+export const generateId = (): string => {
+  return Math.random().toString(36).substring(2, 9);
+};

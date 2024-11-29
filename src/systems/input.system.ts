@@ -1,5 +1,6 @@
 import { InputComponent } from "../components/input.component";
 import { Engine } from "../core/engine";
+import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class InputSystem extends System {
@@ -22,6 +23,11 @@ export class InputSystem extends System {
 
     inputEntities.forEach((entity) => {
       const input = entity.getComponent(InputComponent);
+
+      if (isNullOrUndefined(input)) {
+        return;
+      }
+
       input.setKeyState(key, state);
     });
   }

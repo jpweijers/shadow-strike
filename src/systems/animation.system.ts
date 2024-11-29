@@ -1,17 +1,26 @@
 import { AnimatedSpriteComponent } from "../components/animated-sprite.component";
 import { Entity } from "../entities/entity";
+import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class AnimationSystem extends System {
   update(entities: Entity[], deltaTime: number) {
     const animatedEntities = entities.filter((entity) => {
-      return entity.hasComponents([AnimatedSpriteComponent]);
+      return entity.hasComponent(AnimatedSpriteComponent);
     });
 
     animatedEntities.forEach((entity) => {
       const animatedSprite = entity.getComponent(AnimatedSpriteComponent);
 
-      const animation = animatedSprite.animation;
+      if (isNullOrUndefined(animatedSprite)) {
+        return;
+      }
+
+      const animation = animatedSprite.getAnimation();
+
+      if (isNullOrUndefined(animation)) {
+        return;
+      }
 
       animatedSprite.elapsedTime += deltaTime;
       if (animatedSprite.elapsedTime >= animation.frameDuration) {

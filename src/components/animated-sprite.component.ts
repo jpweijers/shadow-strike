@@ -1,4 +1,5 @@
 import { Component } from "./component";
+import { State } from "./state.component";
 
 export interface AnimatedSprite {
   image: HTMLImageElement;
@@ -14,13 +15,9 @@ export interface AnimatedSprite {
 
 export class AnimatedSpriteComponent extends Component {
   private _elapsedTime: number = 0;
-  private _state: string = "idle";
   private animations: { [key: string]: AnimatedSprite };
   private _mirror: boolean = false;
-
-  get state(): string {
-    return this._state;
-  }
+  private _state: State = "idle";
 
   get elapsedTime(): number {
     return this._elapsedTime;
@@ -30,24 +27,16 @@ export class AnimatedSpriteComponent extends Component {
     this._elapsedTime = value;
   }
 
-  get animation(): AnimatedSprite {
-    return this.animations[this._state];
-  }
-
   get mirror(): boolean {
     return this._mirror;
   }
 
-  constructor(
-    defaultState: string,
-    animations: { [key: string]: AnimatedSprite },
-  ) {
+  constructor(animations: { [key: string]: AnimatedSprite }) {
     super();
-    this._state = defaultState;
     this.animations = animations;
   }
 
-  changeAnimation(state: string): void {
+  changeAnimation(state: State): void {
     if (!this.animations[state]) {
       throw new Error(`Animation ${state} not found`);
     }
@@ -61,6 +50,10 @@ export class AnimatedSpriteComponent extends Component {
     this.animations[this._state].currentFrame = 0;
   }
 
+  getAnimation(): AnimatedSprite {
+    return this.animations[this._state];
+  }
+
   changeDirection(direction: "left" | "right"): void {
     if (direction === "right" && this._mirror) {
       this._mirror = false;
@@ -72,9 +65,19 @@ export class AnimatedSpriteComponent extends Component {
 
   isDone(): boolean {
     return (
-      this.animation.loop === false &&
+      this.getAnimation().loop === false &&
       this.animations[this._state].currentFrame ===
         this.animations[this._state].frameCount
+    );
+  }
+
+  isAttacking(): boolean {
+    if (!this._state.includes("attack")) {
+      return false;
+    }
+    return (
+      this.animations[this._state].currentFrame ===
+      this.animations[this._state].frameCount - 1
     );
   }
 }

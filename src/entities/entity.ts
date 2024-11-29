@@ -1,11 +1,12 @@
 import { Component } from "../components/component";
+import { generateId } from "../utils/helpers";
 
 export class Entity {
   public id: string;
   private components: Map<string, Component> = new Map();
 
-  constructor(id: string) {
-    this.id = id;
+  constructor() {
+    this.id = generateId();
   }
 
   addComponent(component: Component): void {
@@ -14,7 +15,7 @@ export class Entity {
 
   getComponent<T extends Component, Args extends unknown[]>(
     componentType: new (...args: Args) => T,
-  ): T {
+  ): T | undefined {
     return this.components.get(componentType.name) as T;
   }
 

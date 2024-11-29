@@ -1,0 +1,30 @@
+import { System } from "./system";
+import { Entity } from "../entities/entity";
+import { ColliderComponent } from "../components/collider.component";
+import { isNullOrUndefined } from "../utils/helpers";
+
+export class CollisionRenderingSystem extends System {
+  constructor(private context: CanvasRenderingContext2D) {
+    super();
+  }
+
+  update(entities: Entity[]): void {
+    const collisionEntities = entities.filter((entity) =>
+      entity.hasComponent(ColliderComponent),
+    );
+
+    collisionEntities.forEach((entity) => {
+      const collider = entity.getComponent(ColliderComponent);
+
+      if (isNullOrUndefined(collider)) {
+        return;
+      }
+
+      const { x, y, radius } = collider;
+
+      this.context.beginPath();
+      this.context.arc(x, y, radius, 0, 2 * Math.PI);
+      this.context.stroke();
+    });
+  }
+}

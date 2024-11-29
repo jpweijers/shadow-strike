@@ -2,7 +2,8 @@ import { VelocityComponent } from "../components/velocity.component";
 import { InputComponent } from "../components/input.component";
 import { Entity } from "../entities/entity";
 import { System } from "./system";
-import { AnimatedSpriteComponent } from "../components/animated-sprite.component";
+import { isNullOrUndefined } from "../utils/helpers";
+import { StateComponent } from "../components/state.component";
 
 export class InputProcessingSystem extends System {
   update(entities: Entity[]) {
@@ -10,31 +11,39 @@ export class InputProcessingSystem extends System {
       (entity) =>
         entity.hasComponent(InputComponent) &&
         entity.hasComponent(VelocityComponent) &&
-        entity.hasComponent(AnimatedSpriteComponent),
+        entity.hasComponent(StateComponent),
     );
 
     inputEntities.forEach((entity) => {
       const input = entity.getComponent(InputComponent);
       const velocity = entity.getComponent(VelocityComponent);
-      const animatedSprite = entity.getComponent(AnimatedSpriteComponent);
+      const state = entity.getComponent(StateComponent);
+
+      if (
+        isNullOrUndefined(input) ||
+        isNullOrUndefined(velocity) ||
+        isNullOrUndefined(state)
+      ) {
+        return;
+      }
 
       velocity.dx = 0;
       velocity.dy = 0;
 
       if (input.isKeyDown("j")) {
-        animatedSprite.changeAnimation("attack1");
+        state.changeState("attack1");
         return;
       }
       if (input.isKeyDown("k")) {
-        animatedSprite.changeAnimation("attack2");
+        state.changeState("attack2");
         return;
       }
       if (input.isKeyDown("l")) {
-        animatedSprite.changeAnimation("attack3");
+        state.changeState("attack3");
         return;
       }
 
-      if (animatedSprite.state.includes("attack")) {
+      if (state.isAttacking()) {
         return;
       }
 

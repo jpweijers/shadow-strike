@@ -2,7 +2,10 @@ import {
   AnimatedSprite,
   AnimatedSpriteComponent,
 } from "../components/animated-sprite.component";
+import { ColliderComponent } from "../components/collider.component";
+import { HealthComponent } from "../components/health.component";
 import { PositionComponent } from "../components/position.component";
+import { StateComponent } from "../components/state.component";
 import { VelocityComponent } from "../components/velocity.component";
 import { Entity } from "./entity";
 
@@ -40,9 +43,12 @@ const animations: { [key: string]: AnimatedSprite } = {
 
 export class EnemyEntity extends Entity {
   constructor() {
-    super("enemy");
+    super();
     this.addComponent(new PositionComponent(700, 500));
     this.addComponent(new VelocityComponent(0, 0));
-    this.addComponent(new AnimatedSpriteComponent("idle", animations));
+    this.addComponent(new AnimatedSpriteComponent(animations));
+    this.addComponent(new StateComponent("idle"));
+    this.addComponent(new ColliderComponent(700, 700, 20));
+    this.addComponent(new HealthComponent(100, 100));
   }
 }
