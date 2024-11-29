@@ -14,8 +14,6 @@ export class RenderingSystem extends System {
   }
 
   update(entities: Entity[]) {
-    this.clear();
-
     const renderingStack: {
       position: PositionComponent;
       sprite: AnimatedSprite;
@@ -76,14 +74,5 @@ export class RenderingSystem extends System {
       position.x *= -1;
     }
     this.context.restore();
-  }
-
-  private clear() {
-    this.context.clearRect(
-      0,
-      0,
-      this.context.canvas.width,
-      this.context.canvas.height,
-    );
   }
 }

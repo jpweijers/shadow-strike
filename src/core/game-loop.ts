@@ -1,7 +1,9 @@
 import { EnemyEntity } from "../entities/enemy.entity";
 import { PlayerEntity } from "../entities/player.entity";
+import { WorldEntity } from "../entities/world.entity";
 import { AnimationSystem } from "../systems/animation.system";
 import { AttackSystem } from "../systems/attack.system";
+import { BackgroundRenderingSystem } from "../systems/background-rendering.system";
 import { CollisionRenderingSystem } from "../systems/collision-rendering.system";
 import { HealthRenderingSystem } from "../systems/health-rendering.system";
 import { HitDetectionSystem } from "../systems/hit-detection.system";
@@ -18,6 +20,7 @@ export class GameLoop {
   private engine: Engine = new Engine();
 
   constructor(private context: CanvasRenderingContext2D) {
+    this.engine.addEntity(new WorldEntity());
     this.engine.addEntity(new PlayerEntity());
     this.engine.addEntity(new EnemyEntity());
 
@@ -30,6 +33,7 @@ export class GameLoop {
     this.engine.addSystem(new LifespanSystem(this.engine));
     this.engine.addSystem(new StateSystem());
 
+    this.engine.addSystem(new BackgroundRenderingSystem(this.context));
     this.engine.addSystem(new RenderingSystem(this.context));
     this.engine.addSystem(new CollisionRenderingSystem(this.context));
     this.engine.addSystem(new HealthRenderingSystem(this.context));
