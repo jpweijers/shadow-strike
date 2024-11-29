@@ -27,7 +27,7 @@ export class AnimationSystem extends System {
         animatedSprite.elapsedTime = 0;
         animation.currentFrame++;
 
-        if (animation.currentFrame === animation.frameCount) {
+        if (animation.currentFrame >= animation.frameCount) {
           if (animation.loop) {
             animation.currentFrame = 0;
           } else {

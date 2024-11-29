@@ -1,4 +1,5 @@
 import { Component } from "./component";
+import type { Direction } from "./velocity.component";
 
 export type State =
   | "idle"
@@ -11,8 +12,15 @@ export type State =
 export class StateComponent extends Component {
   private attackCooldown: number = 0;
 
-  constructor(private state: State) {
+  constructor(
+    private state: State,
+    private direction: Direction = "right",
+  ) {
     super();
+  }
+
+  getDirection(): Direction {
+    return this.direction;
   }
 
   getState(): State {
@@ -30,15 +38,12 @@ export class StateComponent extends Component {
     return this.state.includes("attack");
   }
 
-  changeState(state: State): void {
-    console.log("Changing state to", state);
+  changeState(state: State, direction: Direction = this.direction): void {
     if (state.includes("attack") && this.isAttacking()) {
       return;
     }
-    if (this.state === state) {
-      return;
-    }
     this.state = state;
+    this.direction = direction;
   }
 
   canAttack(): boolean {

@@ -1,5 +1,7 @@
+import { isDefined } from "../utils/helpers";
 import { Component } from "./component";
 import { State } from "./state.component";
+import { Direction } from "./velocity.component";
 
 export interface AnimatedSprite {
   image: HTMLImageElement;
@@ -36,9 +38,13 @@ export class AnimatedSpriteComponent extends Component {
     this.animations = animations;
   }
 
-  changeAnimation(state: State): void {
+  changeAnimation(state: State, direction?: Direction): void {
     if (!this.animations[state]) {
       throw new Error(`Animation ${state} not found`);
+    }
+
+    if (isDefined(direction)) {
+      this._mirror = direction === "left";
     }
 
     if (this._state === state) {
@@ -54,30 +60,11 @@ export class AnimatedSpriteComponent extends Component {
     return this.animations[this._state];
   }
 
-  changeDirection(direction: "left" | "right"): void {
-    if (direction === "right" && this._mirror) {
-      this._mirror = false;
-    }
-    if (direction === "left" && !this._mirror) {
-      this._mirror = true;
-    }
-  }
-
   isDone(): boolean {
     return (
       this.getAnimation().loop === false &&
       this.animations[this._state].currentFrame ===
         this.animations[this._state].frameCount - 1
-    );
-  }
-
-  isAttacking(): boolean {
-    if (!this._state.includes("attack")) {
-      return false;
-    }
-    return (
-      this.animations[this._state].currentFrame ===
-      this.animations[this._state].frameCount - 1
     );
   }
 }
