@@ -30,17 +30,18 @@ export class InputProcessingSystem extends System {
       velocity.dx = 0;
       velocity.dy = 0;
 
-      if (input.isKeyDown("j")) {
-        state.changeState("attack1");
-        return;
-      }
-      if (input.isKeyDown("k")) {
-        state.changeState("attack2");
-        return;
-      }
-      if (input.isKeyDown("l")) {
-        state.changeState("attack3");
-        return;
+      const lastKey = input.getLastKey();
+
+      switch (lastKey) {
+        case "j":
+          state.changeState("attack1");
+          break;
+        case "k":
+          state.changeState("attack2");
+          break;
+        case "l":
+          state.changeState("attack3");
+          break;
       }
 
       if (state.isAttacking()) {

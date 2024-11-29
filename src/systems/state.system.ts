@@ -19,8 +19,8 @@ export class StateSystem extends System {
 
       const animation = entity.getComponent(AnimatedSpriteComponent);
       const velocity = entity.getComponent(VelocityComponent);
-      this.updateMovement(state, animation, velocity);
       this.updateAnimation(state, animation);
+      this.updateMovement(state, animation, velocity);
     });
   }
 
