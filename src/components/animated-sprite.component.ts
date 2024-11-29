@@ -67,7 +67,7 @@ export class AnimatedSpriteComponent extends Component {
     return (
       this.getAnimation().loop === false &&
       this.animations[this._state].currentFrame ===
-        this.animations[this._state].frameCount
+        this.animations[this._state].frameCount - 1
     );
   }
 

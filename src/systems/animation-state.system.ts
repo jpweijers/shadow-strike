@@ -21,8 +21,6 @@ export class AnimationStateSystem extends System {
         return;
       }
 
-      //if (animatedSprite.elapsedTime >= animatedSprite.getAnimation().frameDuration) {}
-
       animatedSprite.changeAnimation(state.getState());
     });
   }
