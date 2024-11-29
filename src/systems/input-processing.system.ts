@@ -21,19 +21,6 @@ export class InputProcessingSystem extends System {
       velocity.dx = 0;
       velocity.dy = 0;
 
-      if (input.isKeyDown("w")) {
-        velocity.dy = -velocity.speed;
-      }
-      if (input.isKeyDown("s")) {
-        velocity.dy = velocity.speed;
-      }
-      if (input.isKeyDown("a")) {
-        velocity.dx = -velocity.speed;
-      }
-      if (input.isKeyDown("d")) {
-        velocity.dx = velocity.speed;
-      }
-
       if (input.isKeyDown("j")) {
         animatedSprite.changeAnimation("attack1");
         return;
@@ -45,6 +32,23 @@ export class InputProcessingSystem extends System {
       if (input.isKeyDown("l")) {
         animatedSprite.changeAnimation("attack3");
         return;
+      }
+
+      if (animatedSprite.state.includes("attack")) {
+        return;
+      }
+
+      if (input.isKeyDown("w")) {
+        velocity.dy = -velocity.speed;
+      }
+      if (input.isKeyDown("s")) {
+        velocity.dy = velocity.speed;
+      }
+      if (input.isKeyDown("a")) {
+        velocity.dx = -velocity.speed;
+      }
+      if (input.isKeyDown("d")) {
+        velocity.dx = velocity.speed;
       }
     });
   }

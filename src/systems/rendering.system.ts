@@ -20,10 +20,23 @@ export class RenderingSystem extends System {
         entity.hasComponent(AnimatedSpriteComponent),
     );
 
+    const renderingStack: {
+      position: PositionComponent;
+      sprite: AnimatedSprite;
+    }[] = [];
+
     renderingEntities.forEach((entity) => {
       const position = entity.getComponent(PositionComponent);
       const animatedSprite = entity.getComponent(AnimatedSpriteComponent);
-      this.render(position, animatedSprite.animation);
+      renderingStack.push({
+        position,
+        sprite: animatedSprite.animation,
+      });
+    });
+
+    renderingStack.sort((a, b) => a.position.y - b.position.y);
+    renderingStack.forEach(({ position, sprite }) => {
+      this.render(position, sprite);
     });
   }
 

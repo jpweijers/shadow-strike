@@ -1,3 +1,4 @@
+import { EnemyEntity } from "../entities/enemy.entity";
 import { PlayerEntity } from "../entities/player.entity";
 import { AnimationSystem } from "../systems/animation.system";
 import { InputProcessingSystem } from "../systems/input-processing.system";
@@ -13,6 +14,7 @@ export class GameLoop {
 
   constructor(private context: CanvasRenderingContext2D) {
     this.engine.addEntity(new PlayerEntity());
+    this.engine.addEntity(new EnemyEntity());
 
     this.engine.addSystem(new InputSystem(this.engine));
     this.engine.addSystem(new InputProcessingSystem());
