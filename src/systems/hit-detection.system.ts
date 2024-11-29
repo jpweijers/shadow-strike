@@ -47,10 +47,16 @@ export class HitDetectionSystem extends System {
           return;
         }
 
+        // don't hit already damaged entities
+        if (attackComponent.damagedEntities.includes(collisionEntity)) {
+          return;
+        }
+
         if (attack.isColliding(collision)) {
           console.log("hit");
           health.takeDamage(attackComponent.damage);
         }
+        attackComponent.addDamagedEntity(collisionEntity);
       });
     });
   }
