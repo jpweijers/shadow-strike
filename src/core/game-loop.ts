@@ -24,12 +24,12 @@ export class GameLoop {
     this.engine.addSystem(new InputSystem(this.engine));
     this.engine.addSystem(new InputProcessingSystem());
     this.engine.addSystem(new MovementSystem());
-    this.engine.addSystem(new AnimationStateSystem());
-    this.engine.addSystem(new AnimationSystem());
     this.engine.addSystem(new MovementStateSystem());
     this.engine.addSystem(new AttackSystem(this.engine));
-    this.engine.addSystem(new LifespanSystem(this.engine));
+    this.engine.addSystem(new AnimationStateSystem());
+    this.engine.addSystem(new AnimationSystem());
     this.engine.addSystem(new HitDetectionSystem());
+    this.engine.addSystem(new LifespanSystem(this.engine));
 
     this.engine.addSystem(new RenderingSystem(this.context));
     this.engine.addSystem(new CollisionRenderingSystem(this.context));

@@ -1,6 +1,7 @@
 import { AttackComponent } from "../components/attack.component";
 import { ColliderComponent } from "../components/collider.component";
 import { HealthComponent } from "../components/health.component";
+import { StateComponent } from "../components/state.component";
 import { Entity } from "../entities/entity";
 import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
@@ -26,6 +27,16 @@ export class HitDetectionSystem extends System {
       const attack = attackEntity.getComponent(ColliderComponent);
 
       if (isNullOrUndefined(attack) || isNullOrUndefined(attackComponent)) {
+        return;
+      }
+
+      const ownerState = attackComponent.owner.getComponent(StateComponent);
+
+      if (isNullOrUndefined(ownerState)) {
+        return;
+      }
+
+      if (!ownerState.isAttacking()) {
         return;
       }
 

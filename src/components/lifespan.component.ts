@@ -16,4 +16,8 @@ export class LifespanComponent extends Component {
   update(deltaTime: number): void {
     this.elapsedTime += deltaTime;
   }
+
+  expire(): void {
+    this.elapsedTime = this.expireAt;
+  }
 }

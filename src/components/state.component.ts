@@ -25,6 +25,9 @@ export class StateComponent extends Component {
   }
 
   changeState(state: State): void {
+    if (state.includes("attack") && this.isAttacking()) {
+      return;
+    }
     if (this.state === state) {
       return;
     }
