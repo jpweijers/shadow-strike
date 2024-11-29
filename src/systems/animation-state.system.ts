@@ -6,14 +6,7 @@ import { System } from "./system";
 
 export class AnimationStateSystem extends System {
   update(entities: Entity[]) {
-    const stateAnimationEntities = entities.filter((entity) => {
-      return (
-        entity.hasComponent(StateComponent) &&
-        entity.hasComponent(AnimatedSpriteComponent)
-      );
-    });
-
-    stateAnimationEntities.forEach((entity) => {
+    entities.forEach((entity) => {
       const state = entity.getComponent(StateComponent);
       const animatedSprite = entity.getComponent(AnimatedSpriteComponent);
 

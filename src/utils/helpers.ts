@@ -4,7 +4,7 @@ export const isNullOrUndefined = <T>(
   return value === null || value === undefined;
 };
 
-export const isDefined = <T>(value: T): value is T => {
+export const isDefined = <T>(value: T): value is NonNullable<T> => {
   return !isNullOrUndefined(value);
 };
 

@@ -43,6 +43,10 @@ export class MovementStateSystem extends System {
         return;
       }
 
+      if (state.getState() === "dead") {
+        return;
+      }
+
       state.changeState("idle");
     });
   }

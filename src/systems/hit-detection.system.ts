@@ -64,7 +64,6 @@ export class HitDetectionSystem extends System {
         }
 
         if (attack.isColliding(collision)) {
-          console.log("hit");
           health.takeDamage(attackComponent.damage);
         }
         attackComponent.addDamagedEntity(collisionEntity);

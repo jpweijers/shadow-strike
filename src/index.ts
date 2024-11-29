@@ -18,6 +18,8 @@ window.addEventListener("load", () => {
   }
 
   ctx.strokeStyle = "red";
+  ctx.fillStyle = "red";
+  ctx.font = "12px Arial";
 
   new GameLoop(ctx).loop(0);
 });

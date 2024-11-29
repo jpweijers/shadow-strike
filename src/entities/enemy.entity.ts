@@ -15,6 +15,9 @@ const idleImage = window.document.getElementById(
 const walkImage = window.document.getElementById(
   "enemy-walk",
 ) as HTMLImageElement;
+const deadImage = window.document.getElementById(
+  "enemy-dead",
+) as HTMLImageElement;
 
 const animations: { [key: string]: AnimatedSprite } = {
   idle: {
@@ -38,6 +41,17 @@ const animations: { [key: string]: AnimatedSprite } = {
     currentFrame: 0,
     anchor: { x: -64, y: -128 },
     loop: true,
+  },
+  dead: {
+    image: deadImage,
+    frameWidth: 128,
+    frameHeight: 128,
+    frameCount: 6,
+    frameDuration: 60 / 1000,
+    scale: 1.7,
+    currentFrame: 0,
+    anchor: { x: -64, y: -128 },
+    loop: false,
   },
 };
 

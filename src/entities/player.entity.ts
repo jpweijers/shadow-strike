@@ -2,6 +2,8 @@ import {
   AnimatedSprite,
   AnimatedSpriteComponent,
 } from "../components/animated-sprite.component";
+import { ColliderComponent } from "../components/collider.component";
+import { HealthComponent } from "../components/health.component";
 import { InputComponent } from "../components/input.component";
 import { PositionComponent } from "../components/position.component";
 import { StateComponent } from "../components/state.component";
@@ -19,6 +21,7 @@ const attackTwoImage = document.getElementById(
 const attackThreeImage = document.getElementById(
   "player-attack-3",
 ) as HTMLImageElement;
+const deadImage = document.getElementById("player-dead") as HTMLImageElement;
 
 const animations: { [key: string]: AnimatedSprite } = {
   idle: {
@@ -76,6 +79,17 @@ const animations: { [key: string]: AnimatedSprite } = {
     anchor: { x: -60, y: -128 },
     loop: false,
   },
+  dead: {
+    image: deadImage,
+    frameWidth: 128,
+    frameHeight: 128,
+    frameCount: 4,
+    frameDuration: 60 / 1000,
+    scale: 2,
+    currentFrame: 0,
+    anchor: { x: -34, y: -128 },
+    loop: false,
+  },
 };
 
 export class PlayerEntity extends Entity {
@@ -86,5 +100,7 @@ export class PlayerEntity extends Entity {
     this.addComponent(new InputComponent());
     this.addComponent(new AnimatedSpriteComponent(animations));
     this.addComponent(new StateComponent("idle"));
+    this.addComponent(new HealthComponent(100, 100));
+    this.addComponent(new ColliderComponent(500, 500, 20));
   }
 }

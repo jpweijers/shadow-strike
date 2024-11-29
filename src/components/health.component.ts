@@ -8,11 +8,11 @@ export class HealthComponent extends Component {
     super();
   }
 
-  get isDead(): boolean {
+  isDead(): boolean {
     return this.currentHealth <= 0;
   }
 
   takeDamage(damage: number): void {
-    this.currentHealth -= damage;
+    this.currentHealth = Math.max(0, this.currentHealth - damage);
   }
 }

@@ -1,6 +1,12 @@
 import { Component } from "./component";
 
-export type State = "idle" | "walk" | "attack1" | "attack2" | "attack3";
+export type State =
+  | "idle"
+  | "walk"
+  | "attack1"
+  | "attack2"
+  | "attack3"
+  | "dead";
 
 export class StateComponent extends Component {
   private attackCooldown: number = 0;
@@ -25,6 +31,7 @@ export class StateComponent extends Component {
   }
 
   changeState(state: State): void {
+    console.log("Changing state to", state);
     if (state.includes("attack") && this.isAttacking()) {
       return;
     }

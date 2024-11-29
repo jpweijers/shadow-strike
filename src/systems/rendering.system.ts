@@ -16,20 +16,13 @@ export class RenderingSystem extends System {
   update(entities: Entity[]) {
     this.clear();
 
-    const renderingEntities = entities.filter(
-      (entity) =>
-        entity.hasComponent(PositionComponent) &&
-        entity.hasComponent(AnimatedSpriteComponent) &&
-        entity.hasComponent(StateComponent),
-    );
-
     const renderingStack: {
       position: PositionComponent;
       sprite: AnimatedSprite;
       mirror?: boolean;
     }[] = [];
 
-    renderingEntities.forEach((entity) => {
+    entities.forEach((entity) => {
       const position = entity.getComponent(PositionComponent);
       const animatedSprite = entity.getComponent(AnimatedSpriteComponent);
       const state = entity.getComponent(StateComponent);
