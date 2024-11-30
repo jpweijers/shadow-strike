@@ -4,7 +4,7 @@ export class InputComponent extends Component {
   private keys: { [key: string]: boolean } = {};
   private keyStack: string[] = [];
 
-  setKeyState(key: string, state: boolean) {
+  setKeyState(key: string, state: boolean): void {
     this.keys[key] = state;
 
     if (state) {
@@ -14,7 +14,7 @@ export class InputComponent extends Component {
     this.keyStack = this.keyStack.filter((k) => k !== key);
   }
 
-  isKeyDown(key: string) {
+  isKeyDown(key: string): boolean {
     return this.keys[key] ?? false;
   }
 

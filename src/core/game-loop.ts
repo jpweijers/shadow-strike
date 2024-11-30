@@ -46,7 +46,7 @@ export class GameLoop {
     this.engine.addSystem(new HealthRenderingSystem(this.context));
   }
 
-  loop(time: number = 0) {
+  loop(time: number = 0): void {
     const deltaTime = (time - this.lastTime) / 1000;
     this.engine.update(deltaTime);
     this.lastTime = time;

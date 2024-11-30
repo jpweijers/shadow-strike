@@ -10,7 +10,7 @@ export class BoundaryComponent extends Component {
     super();
   }
 
-  isInBoundary(x: number, y: number) {
+  isInBoundary(x: number, y: number): boolean {
     return x >= this.minX && x <= this.maxX && y >= this.minY && y <= this.maxY;
   }
 }

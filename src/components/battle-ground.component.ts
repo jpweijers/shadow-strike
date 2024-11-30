@@ -6,7 +6,7 @@ export class BattleGroundComponent extends Component {
     super();
   }
 
-  getLayer() {
+  getLayer(): BackgroundLayer {
     return this.layer;
   }
 }

@@ -6,7 +6,7 @@ import { isNullOrUndefined } from "../utils/helpers";
 import { StateComponent } from "../components/state.component";
 
 export class InputProcessingSystem extends System {
-  update(entities: Entity[]) {
+  update(entities: Entity[]): void {
     const inputEntities = entities.filter(
       (entity) =>
         entity.hasComponent(InputComponent) &&

@@ -7,7 +7,7 @@ import { isDefined, isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class MovementSystem extends System {
-  update(entities: Entity[]) {
+  update(entities: Entity[]): void {
     entities.forEach((entity) => {
       const position = entity.getComponent(PositionComponent);
       const velocity = entity.getComponent(VelocityComponent);

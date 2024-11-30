@@ -25,7 +25,7 @@ export class StateSystem extends System {
   private updateAnimation(
     state: StateComponent,
     animation?: AnimatedSpriteComponent,
-  ) {
+  ): void {
     if (isDefined(animation)) {
       animation.changeAnimation(state.getState(), state.getDirection());
     }
@@ -35,7 +35,7 @@ export class StateSystem extends System {
     state: StateComponent,
     animation?: AnimatedSpriteComponent,
     velocity?: VelocityComponent,
-  ) {
+  ): void {
     if (isNullOrUndefined(animation) || isNullOrUndefined(velocity)) {
       return;
     }
@@ -57,7 +57,7 @@ export class StateSystem extends System {
     state.changeState("idle");
   }
 
-  private cleanup(entity: Entity, state: StateComponent) {
+  private cleanup(entity: Entity, state: StateComponent): void {
     if (state.getState() !== "dead" || entity.hasComponent(LifespanComponent)) {
       return;
     }

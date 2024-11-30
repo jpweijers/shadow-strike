@@ -5,7 +5,7 @@ import { AIComponent } from "../components/ai.component";
 import { StateComponent } from "../components/state.component";
 
 export class HealthSystem extends System {
-  update(entities: Entity[]) {
+  update(entities: Entity[]): void {
     entities.forEach((entity) => {
       const health = entity.getComponent(HealthComponent);
       const state = entity.getComponent(StateComponent);

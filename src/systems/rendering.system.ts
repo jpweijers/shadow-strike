@@ -13,7 +13,7 @@ export class RenderingSystem extends System {
     super();
   }
 
-  update(entities: Entity[]) {
+  update(entities: Entity[]): void {
     const renderingStack: {
       position: PositionComponent;
       sprite: AnimatedSprite;
@@ -51,7 +51,7 @@ export class RenderingSystem extends System {
     position: PositionComponent,
     sprite: AnimatedSprite,
     mirror: boolean = false,
-  ) {
+  ): void {
     if (isNullOrUndefined(sprite)) {
       return;
     }
