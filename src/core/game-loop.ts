@@ -29,7 +29,7 @@ export class GameLoop {
 
     this.engine.addSystem(new InputSystem(this.engine));
     this.engine.addSystem(new InputProcessingSystem());
-    this.engine.addSystem(new AISystem(player, this.engine));
+    this.engine.addSystem(new AISystem(player));
     this.engine.addSystem(new AIStateSystem());
     this.engine.addSystem(new MovementSystem());
     this.engine.addSystem(new AttackSystem(this.engine));

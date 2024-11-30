@@ -8,7 +8,8 @@ import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class AISystem extends System {
-  private playerDetectionRadius = 100;
+  private playerDetectionRadius = 150;
+  private attackProbability = 0.025;
 
   constructor(private player: PlayerEntity) {
     super();
@@ -68,8 +69,9 @@ export class AISystem extends System {
       ai.changeState("chasing");
       return;
     }
-    if (Math.random() > 0.5) {
+    if (Math.random() <= this.attackProbability) {
       ai.changeState("attacking");
+      return;
     }
   }
 

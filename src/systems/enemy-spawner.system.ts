@@ -4,9 +4,9 @@ import { System } from "./system";
 
 export class EnemySpawnerSystem extends System {
   private lastSpawnTime = Infinity;
-  private spawnRate = 4;
+  private spawnRate = 5;
   private spawnCount = 0;
-  private maxSpawnCount = 1;
+  private maxSpawnCount = 10;
 
   constructor(private engine: Engine) {
     super();
