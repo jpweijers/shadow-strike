@@ -48,9 +48,6 @@ export class AISystem extends System {
         case "idle":
           this.handleIdleState(ai, playerInRange);
           break;
-        case "attacking":
-          // wait for the attack to finish
-          break;
         case "chasing":
           this.handleChasingState(
             ai,
@@ -59,6 +56,10 @@ export class AISystem extends System {
             velocity,
             playerPosition,
           );
+          break;
+        case "attacking":
+        case "dead":
+          // do nothing
           break;
       }
     });

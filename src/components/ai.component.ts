@@ -1,6 +1,6 @@
 import { Component } from "./component";
 
-export type AIState = "idle" | "chasing" | "attacking" | "retreating";
+export type AIState = "idle" | "chasing" | "attacking" | "retreating" | "dead";
 
 export class AIComponent extends Component {
   private state: AIState = "chasing";
