@@ -42,6 +42,9 @@ export class StateComponent extends Component {
     if (state.includes("attack") && this.isAttacking()) {
       return;
     }
+    if (this.state === state && this.direction === direction) {
+      return;
+    }
     this.state = state;
     this.direction = direction;
   }

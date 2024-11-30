@@ -8,13 +8,6 @@ import { System } from "./system";
 
 export class HitDetectionSystem extends System {
   update(entities: Entity[]): void {
-    const attackEntities = entities.filter((entity) => {
-      return (
-        entity.hasComponent(AttackDamageComponent) &&
-        entity.hasComponent(ColliderComponent)
-      );
-    });
-
     const collisionEntities = entities.filter((entity) => {
       return (
         entity.hasComponent(ColliderComponent) &&
@@ -22,7 +15,7 @@ export class HitDetectionSystem extends System {
       );
     });
 
-    attackEntities.forEach((attackEntity) => {
+    entities.forEach((attackEntity) => {
       const attackDamage = attackEntity.getComponent(AttackDamageComponent);
       const attack = attackEntity.getComponent(ColliderComponent);
 
@@ -32,11 +25,7 @@ export class HitDetectionSystem extends System {
 
       const ownerState = attackDamage.owner.getComponent(StateComponent);
 
-      if (isNullOrUndefined(ownerState)) {
-        return;
-      }
-
-      if (!ownerState.isAttacking()) {
+      if (isNullOrUndefined(ownerState) || !ownerState.isAttacking()) {
         return;
       }
 

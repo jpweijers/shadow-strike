@@ -24,6 +24,15 @@ const walkImage = window.document.getElementById(
 const deadImage = window.document.getElementById(
   "enemy-dead",
 ) as HTMLImageElement;
+const attack1Image = window.document.getElementById(
+  "enemy-attack-1",
+) as HTMLImageElement;
+const attack2Image = window.document.getElementById(
+  "enemy-attack-2",
+) as HTMLImageElement;
+const attack3Image = window.document.getElementById(
+  "enemy-attack-3",
+) as HTMLImageElement;
 
 const animations = (): { [key: string]: AnimatedSprite } => ({
   idle: {
@@ -53,6 +62,39 @@ const animations = (): { [key: string]: AnimatedSprite } => ({
     frameWidth: 128,
     frameHeight: 128,
     frameCount: 6,
+    frameDuration: 60 / 1000,
+    scale: 1.7,
+    currentFrame: 0,
+    anchor: { x: -64, y: -128 },
+    loop: false,
+  },
+  attack1: {
+    image: attack1Image,
+    frameWidth: 128,
+    frameHeight: 128,
+    frameCount: 6,
+    frameDuration: 60 / 1000,
+    scale: 1.7,
+    currentFrame: 0,
+    anchor: { x: -64, y: -128 },
+    loop: false,
+  },
+  attack2: {
+    image: attack2Image,
+    frameWidth: 128,
+    frameHeight: 128,
+    frameCount: 4,
+    frameDuration: 60 / 1000,
+    scale: 1.7,
+    currentFrame: 0,
+    anchor: { x: -64, y: -128 },
+    loop: false,
+  },
+  attack3: {
+    image: attack3Image,
+    frameWidth: 128,
+    frameHeight: 128,
+    frameCount: 3,
     frameDuration: 60 / 1000,
     scale: 1.7,
     currentFrame: 0,
