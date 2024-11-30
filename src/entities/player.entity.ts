@@ -108,7 +108,7 @@ export class PlayerEntity extends Entity {
   constructor() {
     super();
     this.addComponent(new PositionComponent(500, 500));
-    this.addComponent(new VelocityComponent(0, 0, 3));
+    this.addComponent(new VelocityComponent(0, 0, 2));
     this.addComponent(new InputComponent());
     this.addComponent(new AnimatedSpriteComponent(animations));
     this.addComponent(new StateComponent("idle"));

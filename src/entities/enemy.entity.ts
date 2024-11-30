@@ -115,7 +115,7 @@ export class EnemyEntity extends Entity {
     const x = Math.floor(Math.random() * 1280);
     const y = Math.floor(Math.random() * (720 - 500) + 500);
     this.addComponent(new PositionComponent(x, y));
-    this.addComponent(new VelocityComponent(0, 0));
+    this.addComponent(new VelocityComponent(0, 0, 1));
     this.addComponent(new AnimatedSpriteComponent(animations()));
     this.addComponent(new StateComponent("idle"));
     this.addComponent(new ColliderComponent(700, 700, 20));
