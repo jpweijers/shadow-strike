@@ -12,7 +12,7 @@ export class BackgroundRenderingSystem extends System {
     super();
   }
 
-  update(entities: Entity[]) {
+  update(entities: Entity[]): void {
     this.clear();
 
     entities.forEach((entity) => {
@@ -32,7 +32,7 @@ export class BackgroundRenderingSystem extends System {
     });
   }
 
-  render(layer: BackgroundLayer) {
+  render(layer: BackgroundLayer): void {
     this.context.drawImage(
       layer.image,
       layer.offsetX,
@@ -49,7 +49,7 @@ export class BackgroundRenderingSystem extends System {
     );
   }
 
-  private clear() {
+  private clear(): void {
     this.context.clearRect(
       0,
       0,

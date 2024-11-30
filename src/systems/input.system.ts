@@ -14,7 +14,7 @@ export class InputSystem extends System {
     });
   }
 
-  keyEventHandler(key: string, eventType: "down" | "up") {
+  keyEventHandler(key: string, eventType: "down" | "up"): void {
     const inputEntities = this.engine.entities.filter((entity) => {
       return entity.hasComponent(InputComponent);
     });
@@ -32,5 +32,5 @@ export class InputSystem extends System {
     });
   }
 
-  update() {}
+  update(): void {}
 }

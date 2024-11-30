@@ -15,14 +15,14 @@ export class AttackSystem extends System {
     super();
   }
 
-  update(entities: Entity[], deltaTime: number) {
+  update(entities: Entity[], deltaTime: number): void {
     entities.forEach((entity) => {
       this.createAttack(entity, deltaTime);
       this.updateAttack(entity);
     });
   }
 
-  private createAttack(entity: Entity, deltaTime: number) {
+  private createAttack(entity: Entity, deltaTime: number): void {
     const position = entity.getComponent(PositionComponent);
     const state = entity.getComponent(StateComponent);
 
@@ -56,7 +56,7 @@ export class AttackSystem extends System {
     state.update(deltaTime);
   }
 
-  private updateAttack(entity: Entity) {
+  private updateAttack(entity: Entity): void {
     const attack = entity.getComponent(AttackDamageComponent);
     const lifespan = entity.getComponent(LifespanComponent);
 

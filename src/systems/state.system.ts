@@ -1,4 +1,3 @@
-import { HealthComponent } from "../components/health.component";
 import { StateComponent } from "../components/state.component";
 import { Entity } from "../entities/entity";
 import { System } from "./system";
@@ -15,11 +14,9 @@ export class StateSystem extends System {
         return;
       }
 
-      const health = entity.getComponent(HealthComponent);
-      this.updateHealth(entity, state, health);
-
       const animation = entity.getComponent(AnimatedSpriteComponent);
       const velocity = entity.getComponent(VelocityComponent);
+      this.cleanup(entity, state);
       this.updateAnimation(state, animation);
       this.updateMovement(state, animation, velocity);
     });
@@ -28,7 +25,7 @@ export class StateSystem extends System {
   private updateAnimation(
     state: StateComponent,
     animation?: AnimatedSpriteComponent,
-  ) {
+  ): void {
     if (isDefined(animation)) {
       animation.changeAnimation(state.getState(), state.getDirection());
     }
@@ -38,7 +35,7 @@ export class StateSystem extends System {
     state: StateComponent,
     animation?: AnimatedSpriteComponent,
     velocity?: VelocityComponent,
-  ) {
+  ): void {
     if (isNullOrUndefined(animation) || isNullOrUndefined(velocity)) {
       return;
     }
@@ -60,18 +57,12 @@ export class StateSystem extends System {
     state.changeState("idle");
   }
 
-  private updateHealth(
-    entity: Entity,
-    state: StateComponent,
-    health?: HealthComponent,
-  ) {
-    if (isNullOrUndefined(health)) {
+  private cleanup(entity: Entity, state: StateComponent): void {
+    if (state.getState() !== "dead" || entity.hasComponent(LifespanComponent)) {
       return;
     }
-    if (health.isDead() && state.getState() !== "dead") {
-      state.changeState("dead");
-      entity.addComponent(new LifespanComponent(5));
-      entity.removeComponent(VelocityComponent);
-    }
+
+    entity.removeComponent(VelocityComponent);
+    entity.addComponent(new LifespanComponent(5));
   }
 }

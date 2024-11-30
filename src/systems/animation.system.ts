@@ -4,7 +4,7 @@ import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class AnimationSystem extends System {
-  update(entities: Entity[], deltaTime: number) {
+  update(entities: Entity[], deltaTime: number): void {
     const animatedEntities = entities.filter((entity) => {
       return entity.hasComponent(AnimatedSpriteComponent);
     });

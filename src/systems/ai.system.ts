@@ -14,7 +14,7 @@ export class AISystem extends System {
   constructor(private player: PlayerEntity) {
     super();
   }
-  update(entities: Entity[]) {
+  update(entities: Entity[]): void {
     const playerPosition = this.player.getComponent(PositionComponent);
     if (isNullOrUndefined(playerPosition)) {
       return;
@@ -65,7 +65,7 @@ export class AISystem extends System {
     });
   }
 
-  private handleIdleState(ai: AIComponent, playerInRange: boolean) {
+  private handleIdleState(ai: AIComponent, playerInRange: boolean): void {
     if (!playerInRange) {
       ai.changeState("chasing");
       return;
@@ -82,7 +82,7 @@ export class AISystem extends System {
     position: PositionComponent,
     velocity: VelocityComponent,
     playerPosition: PositionComponent,
-  ) {
+  ): void {
     if (playerInRange) {
       velocity.dx = 0;
       velocity.dy = 0;
@@ -95,7 +95,7 @@ export class AISystem extends System {
   private playerInRange(
     position: PositionComponent,
     playerPosition: PositionComponent,
-  ) {
+  ): boolean {
     const dx = playerPosition.x - position.x;
     const dy = playerPosition.y - position.y;
     return Math.hypot(dy, dx) <= this.playerDetectionRadius;
@@ -105,7 +105,7 @@ export class AISystem extends System {
     position: PositionComponent,
     velocity: VelocityComponent,
     playerPosition: PositionComponent,
-  ) {
+  ): void {
     const dx = playerPosition.x - position.x;
     const dy = playerPosition.y - position.y;
     const distance = Math.hypot(dy, dx);

@@ -15,11 +15,11 @@ export class BackgroundComponent extends Component {
     super();
   }
 
-  getLayers() {
+  getLayers(): BackgroundLayer[] {
     return this.layers;
   }
 
-  update() {
+  update(): void {
     this.layers.forEach((layer) => {
       layer.offsetX -= layer.speed;
       if (layer.offsetX <= -this.width) {
