@@ -8,6 +8,7 @@ import { BackgroundRenderingSystem } from "../systems/background-rendering.syste
 import { CollisionRenderingSystem } from "../systems/collision-rendering.system";
 import { EnemySpawnerSystem } from "../systems/enemy-spawner.system";
 import { HealthRenderingSystem } from "../systems/health-rendering.system";
+import { HealthSystem } from "../systems/health.system";
 import { HitDetectionSystem } from "../systems/hit-detection.system";
 import { InputProcessingSystem } from "../systems/input-processing.system";
 import { InputSystem } from "../systems/input.system";
@@ -36,6 +37,7 @@ export class GameLoop {
     this.engine.addSystem(new AnimationSystem());
     this.engine.addSystem(new HitDetectionSystem());
     this.engine.addSystem(new LifespanSystem(this.engine));
+    this.engine.addSystem(new HealthSystem());
     this.engine.addSystem(new StateSystem());
 
     this.engine.addSystem(new BackgroundRenderingSystem(this.context));

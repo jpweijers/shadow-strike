@@ -16,11 +16,6 @@ export class AIStateSystem extends System {
 
       const aiState = ai.getState();
 
-      if (state.getState() === "dead") {
-        // change ai state to dead if entity died
-        ai.changeState("dead");
-      }
-
       switch (aiState) {
         case "idle":
           state.changeState("idle");
