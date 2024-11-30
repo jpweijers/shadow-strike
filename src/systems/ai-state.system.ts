@@ -1,5 +1,5 @@
 import { AIComponent } from "../components/ai.component";
-import { StateComponent } from "../components/state.component";
+import { State, StateComponent } from "../components/state.component";
 import { Entity } from "../entities/entity";
 import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
@@ -25,10 +25,15 @@ export class AIStateSystem extends System {
           state.changeState("walk");
           break;
         case "attacking":
-          state.changeState("attack1");
+          state.changeState(this.pickRandomAttack());
           break;
       }
     });
     return;
+  }
+
+  private pickRandomAttack(): State {
+    const attacks = ["attack1", "attack2", "attack3"];
+    return attacks[Math.floor(Math.random() * attacks.length)] as State;
   }
 }
