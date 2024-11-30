@@ -12,11 +12,11 @@ export class Attack {
 export type AttackType = "attack1" | "attack2" | "attack3";
 
 export class AttackComponent extends Component {
-  constructor(private attacks: Map<AttackType, Attack>) {
+  constructor(private attacks: Record<AttackType, Attack>) {
     super();
   }
 
   getAttack(attackType: AttackType): Attack | undefined {
-    return this.attacks.get(attackType);
+    return this.attacks[attackType];
   }
 }
