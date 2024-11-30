@@ -1,13 +1,14 @@
 import { PositionComponent } from "../components/position.component";
 import { Entity } from "../entities/entity";
 import { System } from "./system";
-import { AnimatedSpriteComponent } from "../components/animated-sprite.component";
 import { Engine } from "../core/engine";
 import { AttackEntity } from "../entities/attack.entity";
 import { isNullOrUndefined } from "../utils/helpers";
 import { StateComponent } from "../components/state.component";
-import { AttackComponent } from "../components/attack.component";
+import { AttackDamageComponent } from "../components/attack-damage.component";
 import { LifespanComponent } from "../components/lifespan.component";
+import { AttackComponent } from "../components/attack.component";
+import type { AttackType } from "../components/attack.component";
 
 export class AttackSystem extends System {
   constructor(private engine: Engine) {
@@ -23,27 +24,41 @@ export class AttackSystem extends System {
 
   private createAttack(entity: Entity, deltaTime: number) {
     const position = entity.getComponent(PositionComponent);
-    const animatedSprite = entity.getComponent(AnimatedSpriteComponent);
     const state = entity.getComponent(StateComponent);
 
-    if (
-      isNullOrUndefined(position) ||
-      isNullOrUndefined(animatedSprite) ||
-      isNullOrUndefined(state)
-    ) {
+    if (isNullOrUndefined(position) || isNullOrUndefined(state)) {
       return;
     }
 
     if (state.isAttacking() && state.canAttack()) {
+      console.log("Attacking");
+      const attack = entity
+        .getComponent(AttackComponent)
+        ?.getAttack(state.getState() as AttackType);
+
+      if (isNullOrUndefined(attack)) {
+        return;
+      }
+
+      const direction = state.getDirection();
+      const attackDirection = direction === "left" ? -1 : 1;
+
       this.engine.addEntity(
-        new AttackEntity(position.x, position.y, 50, 1, entity, 20),
+        new AttackEntity(
+          position.x + attack.offsetX * attackDirection,
+          position.y,
+          attack.radius,
+          1,
+          entity,
+          attack.damage,
+        ),
       );
     }
     state.update(deltaTime);
   }
 
   private updateAttack(entity: Entity) {
-    const attack = entity.getComponent(AttackComponent);
+    const attack = entity.getComponent(AttackDamageComponent);
     const lifespan = entity.getComponent(LifespanComponent);
 
     if (isNullOrUndefined(attack) || isNullOrUndefined(lifespan)) {

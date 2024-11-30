@@ -1,4 +1,4 @@
-import { AttackComponent } from "../components/attack.component";
+import { AttackDamageComponent } from "../components/attack-damage.component";
 import { ColliderComponent } from "../components/collider.component";
 import { HealthComponent } from "../components/health.component";
 import { StateComponent } from "../components/state.component";
@@ -10,7 +10,7 @@ export class HitDetectionSystem extends System {
   update(entities: Entity[]): void {
     const attackEntities = entities.filter((entity) => {
       return (
-        entity.hasComponent(AttackComponent) &&
+        entity.hasComponent(AttackDamageComponent) &&
         entity.hasComponent(ColliderComponent)
       );
     });
@@ -23,14 +23,14 @@ export class HitDetectionSystem extends System {
     });
 
     attackEntities.forEach((attackEntity) => {
-      const attackComponent = attackEntity.getComponent(AttackComponent);
+      const attackDamage = attackEntity.getComponent(AttackDamageComponent);
       const attack = attackEntity.getComponent(ColliderComponent);
 
-      if (isNullOrUndefined(attack) || isNullOrUndefined(attackComponent)) {
+      if (isNullOrUndefined(attack) || isNullOrUndefined(attackDamage)) {
         return;
       }
 
-      const ownerState = attackComponent.owner.getComponent(StateComponent);
+      const ownerState = attackDamage.owner.getComponent(StateComponent);
 
       if (isNullOrUndefined(ownerState)) {
         return;
@@ -54,19 +54,19 @@ export class HitDetectionSystem extends System {
         }
 
         // don't hit attack's owner
-        if (attackComponent?.owner === collisionEntity) {
+        if (attackDamage?.owner === collisionEntity) {
           return;
         }
 
         // don't hit already damaged entities
-        if (attackComponent.damagedEntities.includes(collisionEntity)) {
+        if (attackDamage.damagedEntities.includes(collisionEntity)) {
           return;
         }
 
         if (attack.isColliding(collision)) {
-          health.takeDamage(attackComponent.damage);
+          health.takeDamage(attackDamage.damage);
         }
-        attackComponent.addDamagedEntity(collisionEntity);
+        attackDamage.addDamagedEntity(collisionEntity);
       });
     });
   }

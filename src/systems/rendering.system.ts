@@ -41,7 +41,7 @@ export class RenderingSystem extends System {
     });
 
     renderingStack.sort((a, b) => a.position.y - b.position.y);
-    console.log(`Rendering ${renderingStack.length} entities`);
+    //console.log(`Rendering ${renderingStack.length} entities`);
     renderingStack.forEach(({ position, sprite, mirror }) => {
       this.render(position, sprite, mirror);
     });
