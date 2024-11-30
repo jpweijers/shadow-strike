@@ -9,11 +9,7 @@ export class CollisionRenderingSystem extends System {
   }
 
   update(entities: Entity[]): void {
-    const collisionEntities = entities.filter((entity) =>
-      entity.hasComponent(ColliderComponent),
-    );
-
-    collisionEntities.forEach((entity) => {
+    entities.forEach((entity) => {
       const collider = entity.getComponent(ColliderComponent);
 
       if (isNullOrUndefined(collider)) {

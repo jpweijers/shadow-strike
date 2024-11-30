@@ -1,5 +1,6 @@
 import { AIComponent } from "../components/ai.component";
 import { PositionComponent } from "../components/position.component";
+import { StateComponent } from "../components/state.component";
 import { VelocityComponent } from "../components/velocity.component";
 import { Entity } from "../entities/entity";
 import { PlayerEntity } from "../entities/player.entity";
@@ -7,6 +8,8 @@ import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class AISystem extends System {
+  private playerDetectionRadius = 100;
+
   constructor(private player: PlayerEntity) {
     super();
   }
@@ -21,33 +24,88 @@ export class AISystem extends System {
       const ai = entity.getComponent(AIComponent);
       const position = entity.getComponent(PositionComponent);
       const velocity = entity.getComponent(VelocityComponent);
+      const state = entity.getComponent(StateComponent);
+
       if (
         isNullOrUndefined(ai) ||
         isNullOrUndefined(position) ||
-        isNullOrUndefined(velocity)
+        isNullOrUndefined(velocity) ||
+        isNullOrUndefined(state)
       ) {
         return;
       }
 
-      this.moveTowardsPlayer(position, velocity, playerPosition, 150);
+      const aiState = ai.getState();
+      const playerInRange = this.playerInRange(position, playerPosition);
+
+      if (aiState === "attacking" && state.getState() === "idle") {
+        ai.changeState("idle");
+        return;
+      }
+
+      switch (aiState) {
+        case "idle":
+          this.handleIdleState(ai, playerInRange);
+          break;
+        case "attacking":
+          // wait for the attack to finish
+          break;
+        case "chasing":
+          this.handleChasingState(
+            ai,
+            playerInRange,
+            position,
+            velocity,
+            playerPosition,
+          );
+          break;
+      }
     });
+  }
+
+  private handleIdleState(ai: AIComponent, playerInRange: boolean) {
+    if (!playerInRange) {
+      ai.changeState("chasing");
+      return;
+    }
+    if (Math.random() > 0.5) {
+      ai.changeState("attacking");
+    }
+  }
+
+  private handleChasingState(
+    ai: AIComponent,
+    playerInRange: boolean,
+    position: PositionComponent,
+    velocity: VelocityComponent,
+    playerPosition: PositionComponent,
+  ) {
+    if (playerInRange) {
+      velocity.dx = 0;
+      velocity.dy = 0;
+      ai.changeState("idle");
+      return;
+    }
+    this.moveTowardsPlayer(position, velocity, playerPosition);
+  }
+
+  private playerInRange(
+    position: PositionComponent,
+    playerPosition: PositionComponent,
+  ) {
+    const dx = playerPosition.x - position.x;
+    const dy = playerPosition.y - position.y;
+    return Math.hypot(dy, dx) <= this.playerDetectionRadius;
   }
 
   private moveTowardsPlayer(
     position: PositionComponent,
     velocity: VelocityComponent,
     playerPosition: PositionComponent,
-    stopRange: number,
   ) {
     const dx = playerPosition.x - position.x;
     const dy = playerPosition.y - position.y;
     const distance = Math.hypot(dy, dx);
-
-    if (distance < stopRange) {
-      velocity.dx = 0;
-      velocity.dy = 0;
-      return;
-    }
 
     const directionX = dx / distance;
     const directionY = dy / distance;

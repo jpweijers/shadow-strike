@@ -6,7 +6,7 @@ export class EnemySpawnerSystem extends System {
   private lastSpawnTime = Infinity;
   private spawnRate = 4;
   private spawnCount = 0;
-  private maxSpawnCount = 10;
+  private maxSpawnCount = 1;
 
   constructor(private engine: Engine) {
     super();

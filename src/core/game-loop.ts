@@ -1,5 +1,6 @@
 import { PlayerEntity } from "../entities/player.entity";
 import { WorldEntity } from "../entities/world.entity";
+import { AIStateSystem } from "../systems/ai-state.system";
 import { AISystem } from "../systems/ai.system";
 import { AnimationSystem } from "../systems/animation.system";
 import { AttackSystem } from "../systems/attack.system";
@@ -28,7 +29,8 @@ export class GameLoop {
 
     this.engine.addSystem(new InputSystem(this.engine));
     this.engine.addSystem(new InputProcessingSystem());
-    this.engine.addSystem(new AISystem(player));
+    this.engine.addSystem(new AISystem(player, this.engine));
+    this.engine.addSystem(new AIStateSystem());
     this.engine.addSystem(new MovementSystem());
     this.engine.addSystem(new AttackSystem(this.engine));
     this.engine.addSystem(new AnimationSystem());

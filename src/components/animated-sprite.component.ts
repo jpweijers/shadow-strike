@@ -33,6 +33,10 @@ export class AnimatedSpriteComponent extends Component {
     return this._mirror;
   }
 
+  get state(): State {
+    return this._state;
+  }
+
   constructor(animations: { [key: string]: AnimatedSprite }) {
     super();
     this.animations = animations;
