@@ -99,9 +99,9 @@ const animations: { [key: string]: AnimatedSprite } = {
 };
 
 const attacks: Map<AttackType, Attack> = new Map([
-  ["attack1", new Attack("attack1", 40, 50, 50)],
-  ["attack2", new Attack("attack2", 60, 50, 50)],
-  ["attack3", new Attack("attack3", 30, 50, 50)],
+  ["attack1", new Attack("attack1", 40, 50, 65)],
+  ["attack2", new Attack("attack2", 60, 50, 65)],
+  ["attack3", new Attack("attack3", 30, 40, 65)],
 ]);
 
 export class PlayerEntity extends Entity {

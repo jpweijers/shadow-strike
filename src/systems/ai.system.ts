@@ -9,12 +9,12 @@ import { System } from "./system";
 
 export class AISystem extends System {
   private playerDetectionRadius = 150;
-  private attackProbability = 0.025;
+  private attackProbability = 0.1;
 
   constructor(private player: PlayerEntity) {
     super();
   }
-  update(entities: Entity[]): void {
+  update(entities: Entity[], deltaTime: number): void {
     const playerPosition = this.player.getComponent(PositionComponent);
     if (isNullOrUndefined(playerPosition)) {
       return;
@@ -35,6 +35,8 @@ export class AISystem extends System {
       ) {
         return;
       }
+
+      ai.update(deltaTime);
 
       const aiState = ai.getState();
       const playerInRange = this.playerInRange(position, playerPosition);
