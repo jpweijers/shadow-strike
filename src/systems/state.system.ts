@@ -5,6 +5,7 @@ import { System } from "./system";
 import { isDefined, isNullOrUndefined } from "../utils/helpers";
 import { AnimatedSpriteComponent } from "../components/animated-sprite.component";
 import { VelocityComponent } from "../components/velocity.component";
+import { LifespanComponent } from "../components/lifespan.component";
 
 export class StateSystem extends System {
   update(entities: Entity[]): void {
@@ -15,7 +16,7 @@ export class StateSystem extends System {
       }
 
       const health = entity.getComponent(HealthComponent);
-      this.updateHealth(state, health);
+      this.updateHealth(entity, state, health);
 
       const animation = entity.getComponent(AnimatedSpriteComponent);
       const velocity = entity.getComponent(VelocityComponent);
@@ -59,12 +60,17 @@ export class StateSystem extends System {
     state.changeState("idle");
   }
 
-  private updateHealth(state: StateComponent, health?: HealthComponent) {
+  private updateHealth(
+    entity: Entity,
+    state: StateComponent,
+    health?: HealthComponent,
+  ) {
     if (isNullOrUndefined(health)) {
       return;
     }
-    if (health.isDead()) {
+    if (health.isDead() && state.getState() !== "dead") {
       state.changeState("dead");
+      entity.addComponent(new LifespanComponent(5));
     }
   }
 }

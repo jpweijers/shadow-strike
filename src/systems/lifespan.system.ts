@@ -10,11 +10,7 @@ export class LifespanSystem extends System {
   }
 
   update(entities: Entity[], deltaTime: number): void {
-    const lifespanEntities = entities.filter((entity) => {
-      return entity.hasComponent(LifespanComponent);
-    });
-
-    lifespanEntities.forEach((entity) => {
+    entities.forEach((entity) => {
       const lifespan = entity.getComponent(LifespanComponent);
 
       if (isNullOrUndefined(lifespan)) {

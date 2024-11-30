@@ -31,7 +31,6 @@ export class AttackSystem extends System {
     }
 
     if (state.isAttacking() && state.canAttack()) {
-      console.log("Attacking");
       const attack = entity
         .getComponent(AttackComponent)
         ?.getAttack(state.getState() as AttackType);
