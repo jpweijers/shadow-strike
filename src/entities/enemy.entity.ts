@@ -1,7 +1,13 @@
+import { AIComponent } from "../components/ai.component";
 import {
   AnimatedSprite,
   AnimatedSpriteComponent,
 } from "../components/animated-sprite.component";
+import {
+  Attack,
+  AttackComponent,
+  AttackType,
+} from "../components/attack.component";
 import { ColliderComponent } from "../components/collider.component";
 import { HealthComponent } from "../components/health.component";
 import { PositionComponent } from "../components/position.component";
@@ -55,6 +61,12 @@ const animations = (): { [key: string]: AnimatedSprite } => ({
   },
 });
 
+const attacks: Map<AttackType, Attack> = new Map([
+  ["attack1", new Attack("attack1", 10, 50, 50)],
+  ["attack2", new Attack("attack2", 20, 50, 50)],
+  ["attack3", new Attack("attack3", 30, 50, 50)],
+]);
+
 export class EnemyEntity extends Entity {
   constructor() {
     super();
@@ -66,5 +78,7 @@ export class EnemyEntity extends Entity {
     this.addComponent(new StateComponent("idle"));
     this.addComponent(new ColliderComponent(700, 700, 20));
     this.addComponent(new HealthComponent(100, 100));
+    this.addComponent(new AttackComponent(attacks));
+    this.addComponent(new AIComponent());
   }
 }

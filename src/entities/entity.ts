@@ -32,4 +32,10 @@ export class Entity {
       this.hasComponent(componentType),
     );
   }
+
+  removeComponent<Args extends unknown[]>(
+    componentType: new (...args: Args) => Component,
+  ): void {
+    this.components.delete(componentType.name);
+  }
 }

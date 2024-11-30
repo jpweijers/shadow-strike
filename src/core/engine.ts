@@ -5,8 +5,9 @@ export class Engine {
   public entities: Entity[] = [];
   private systems: Array<System> = [];
 
-  addEntity(entity: Entity): void {
+  addEntity<E extends Entity>(entity: E): E {
     this.entities.push(entity);
+    return entity;
   }
 
   removeEntity(entity: Entity): void {

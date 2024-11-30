@@ -1,5 +1,6 @@
 import { PlayerEntity } from "../entities/player.entity";
 import { WorldEntity } from "../entities/world.entity";
+import { AISystem } from "../systems/ai.system";
 import { AnimationSystem } from "../systems/animation.system";
 import { AttackSystem } from "../systems/attack.system";
 import { BackgroundRenderingSystem } from "../systems/background-rendering.system";
@@ -21,12 +22,13 @@ export class GameLoop {
 
   constructor(private context: CanvasRenderingContext2D) {
     this.engine.addEntity(new WorldEntity());
-    this.engine.addEntity(new PlayerEntity());
+    const player = this.engine.addEntity(new PlayerEntity());
 
     this.engine.addSystem(new EnemySpawnerSystem(this.engine));
 
     this.engine.addSystem(new InputSystem(this.engine));
     this.engine.addSystem(new InputProcessingSystem());
+    this.engine.addSystem(new AISystem(player));
     this.engine.addSystem(new MovementSystem());
     this.engine.addSystem(new AttackSystem(this.engine));
     this.engine.addSystem(new AnimationSystem());

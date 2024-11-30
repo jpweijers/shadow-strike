@@ -71,6 +71,7 @@ export class StateSystem extends System {
     if (health.isDead() && state.getState() !== "dead") {
       state.changeState("dead");
       entity.addComponent(new LifespanComponent(5));
+      entity.removeComponent(VelocityComponent);
     }
   }
 }
