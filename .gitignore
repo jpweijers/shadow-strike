@@ -14,3 +14,4 @@
 
 dist/
 .parcel-cache/
+.tool-versions
