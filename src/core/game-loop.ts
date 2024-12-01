@@ -26,7 +26,10 @@ export class GameLoop {
   private player: PlayerEntity;
   private gameManager: GameManagerEntity;
 
-  constructor(private context: CanvasRenderingContext2D) {
+  constructor(
+    private context: CanvasRenderingContext2D,
+    debug: boolean = false,
+  ) {
     this.engine.addEntity(new WorldEntity());
     this.gameManager = this.engine.addEntity(
       new GameManagerEntity(context.canvas.width, context.canvas.height),
@@ -50,8 +53,10 @@ export class GameLoop {
     this.engine.addSystem(new StateSystem(this.gameManager));
 
     this.engine.addSystem(new BackgroundRenderingSystem(this.context));
+    if (debug) {
+      this.engine.addSystem(new CollisionRenderingSystem(this.context));
+    }
     this.engine.addSystem(new RenderingSystem(this.context));
-    this.engine.addSystem(new CollisionRenderingSystem(this.context));
     this.engine.addSystem(new HealthRenderingSystem(this.context));
     this.engine.addSystem(new GameStateRenderingSystem(this.context));
   }
