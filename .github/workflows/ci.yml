@@ -28,7 +28,7 @@ jobs:
       - name: Debug
         run: |
           node -v
-          yarn list
+          yarn info
 
       - name: Run CI
         run: yarn ci
