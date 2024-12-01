@@ -1,3 +1,4 @@
+import { AIComponent } from "../components/ai.component";
 import { BoundaryComponent } from "../components/boundary.component";
 import { ColliderComponent } from "../components/collider.component";
 import { PositionComponent } from "../components/position.component";
@@ -20,6 +21,7 @@ export class MovementSystem extends System {
       const velocity = entity.getComponent(VelocityComponent);
       const collider = entity.getComponent(ColliderComponent);
       const boundary = entity.getComponent(BoundaryComponent);
+      const ai = entity.getComponent(AIComponent);
 
       if (
         isNullOrUndefined(position) ||
@@ -34,7 +36,8 @@ export class MovementSystem extends System {
         !boundary.isInBoundary(
           position.x + velocity.dx,
           position.y + velocity.dy,
-        )
+        ) &&
+        isNullOrUndefined(ai)
       ) {
         return;
       }
