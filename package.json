@@ -2,8 +2,8 @@
   "name": "shadow-strike",
   "packageManager": "yarn@4.4.1",
   "scripts": {
-    "start": "rm -rf .parcel-cache && parcel src/index.html",
-    "build": "rm -rf .parcel-cache && parcel build src/index.html",
+    "start": "rm -rf .parcel-cache && npx parcel src/index.html",
+    "build": "rm -rf .parcel-cache && npx parcel build src/index.html",
     "lint": "eslint ./src/**/*.ts",
     "check": "tsc --noEmit",
     "ci": "tsc && yarn lint",
