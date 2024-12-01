@@ -9,7 +9,10 @@ import { System } from "./system";
 export class MovementSystem extends System {
   update(entities: Entity[]): void {
     const collisionEntities = entities.filter((entity) => {
-      return entity.hasComponent(ColliderComponent);
+      return (
+        entity.hasComponent(ColliderComponent) &&
+        entity.hasComponent(VelocityComponent)
+      );
     });
 
     entities.forEach((entity) => {

@@ -19,7 +19,7 @@ export class EnemyEntity extends Entity {
     this.addComponent(new VelocityComponent(0, 0, 1));
     this.addComponent(new AnimatedSpriteComponent(enemyAnimations()));
     this.addComponent(new StateComponent("idle"));
-    this.addComponent(new ColliderComponent(700, 700, 20));
+    this.addComponent(new ColliderComponent(x, y, 20));
     this.addComponent(new HealthComponent(100, 100));
     this.addComponent(new AttackComponent(enemyAttacks()));
     this.addComponent(new AIComponent());
