@@ -23,7 +23,13 @@ jobs:
           cache: "yarn"
 
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
+
+      - name: Debug
+        run: |
+          node -v
+          ls .yarn/
+          yarn info
 
       - name: Run CI
         run: yarn ci

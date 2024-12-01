@@ -1,6 +1,8 @@
 import { GameLoop } from "./core/game-loop";
 import { isNullOrUndefined } from "./utils/helpers";
 
+const DEBUG = process.env.NODE_ENV === "development";
+
 window.addEventListener("load", () => {
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
@@ -21,5 +23,5 @@ window.addEventListener("load", () => {
   ctx.fillStyle = "white";
   ctx.font = "12px Arial";
 
-  new GameLoop(ctx).loop(0);
+  new GameLoop(ctx, DEBUG).loop(0);
 });

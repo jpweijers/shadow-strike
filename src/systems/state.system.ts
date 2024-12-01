@@ -7,6 +7,7 @@ import { VelocityComponent } from "../components/velocity.component";
 import { LifespanComponent } from "../components/lifespan.component";
 import { GameManagerEntity } from "../entities/game-manager.entity";
 import { GameStateComponent } from "../components/game-state.component";
+import { ColliderComponent } from "../components/collider.component";
 
 export class StateSystem extends System {
   constructor(private gameManager: GameManagerEntity) {
@@ -78,6 +79,7 @@ export class StateSystem extends System {
     }
 
     entity.removeComponent(VelocityComponent);
+    entity.removeComponent(ColliderComponent);
     entity.addComponent(new LifespanComponent(5));
     gameState.killEnemy();
   }

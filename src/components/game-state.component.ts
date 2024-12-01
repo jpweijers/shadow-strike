@@ -4,7 +4,7 @@ export class GameStateComponent extends Component {
   private score: number = 0;
   private enemiesKilled: number = 0;
   private enemiesAlive: number = 0;
-  private maxEnemies: number = 10;
+  private maxEnemies: number = 5;
   private spawnRate: number = 1;
 
   getScore(): number {
@@ -35,5 +35,10 @@ export class GameStateComponent extends Component {
     this.enemiesKilled++;
     this.enemiesAlive--;
     this.score += 100;
+
+    if (this.enemiesKilled % 5 === 0) {
+      this.maxEnemies++;
+      this.spawnRate *= 0.9;
+    }
   }
 }

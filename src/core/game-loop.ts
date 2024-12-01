@@ -26,9 +26,14 @@ export class GameLoop {
   private player: PlayerEntity;
   private gameManager: GameManagerEntity;
 
-  constructor(private context: CanvasRenderingContext2D) {
+  constructor(
+    private context: CanvasRenderingContext2D,
+    debug: boolean = false,
+  ) {
     this.engine.addEntity(new WorldEntity());
-    this.gameManager = this.engine.addEntity(new GameManagerEntity());
+    this.gameManager = this.engine.addEntity(
+      new GameManagerEntity(context.canvas.width, context.canvas.height),
+    );
     this.player = this.engine.addEntity(new PlayerEntity());
 
     this.engine.addSystem(
@@ -37,7 +42,7 @@ export class GameLoop {
 
     this.engine.addSystem(new InputSystem(this.engine));
     this.engine.addSystem(new InputProcessingSystem());
-    this.engine.addSystem(new AISystem(this.player));
+    this.engine.addSystem(new AISystem(this.player, this.gameManager));
     this.engine.addSystem(new AIStateSystem());
     this.engine.addSystem(new MovementSystem());
     this.engine.addSystem(new AttackSystem(this.engine));
@@ -48,8 +53,10 @@ export class GameLoop {
     this.engine.addSystem(new StateSystem(this.gameManager));
 
     this.engine.addSystem(new BackgroundRenderingSystem(this.context));
+    if (debug) {
+      this.engine.addSystem(new CollisionRenderingSystem(this.context));
+    }
     this.engine.addSystem(new RenderingSystem(this.context));
-    this.engine.addSystem(new CollisionRenderingSystem(this.context));
     this.engine.addSystem(new HealthRenderingSystem(this.context));
     this.engine.addSystem(new GameStateRenderingSystem(this.context));
   }
