@@ -6,7 +6,7 @@
     "build": "rm -rf .parcel-cache && parcel build src/index.html",
     "lint": "eslint ./src/**/*.ts",
     "check": "tsc --noEmit",
-    "ci": "yarn check && yarn lint",
+    "ci": "tsc && yarn lint",
     "prepare": "husky"
   },
   "devDependencies": {
