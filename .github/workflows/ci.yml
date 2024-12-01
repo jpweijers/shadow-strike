@@ -28,8 +28,6 @@ jobs:
       - name: Debug
         run: |
           node -v
-          ls -la
-          ls node_modules/
           ls .yarn/
           yarn info
 
