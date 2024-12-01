@@ -15,6 +15,7 @@
     "@parcel/core": "^2.13.2",
     "@parcel/transformer-typescript-tsc": "^2.13.2",
     "@parcel/validator-typescript": "^2.13.2",
+    "@types/node": "^22.10.1",
     "eslint": "^9.15.0",
     "husky": "^9.1.7",
     "parcel": "^2.13.2",
