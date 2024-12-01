@@ -1,6 +1,7 @@
 import { AIComponent } from "../components/ai.component";
 import { AnimatedSpriteComponent } from "../components/animated-sprite.component";
 import { AttackComponent } from "../components/attack.component";
+import { BoundaryComponent } from "../components/boundary.component";
 import { ColliderComponent } from "../components/collider.component";
 import { HealthComponent } from "../components/health.component";
 import { PositionComponent } from "../components/position.component";
@@ -22,5 +23,6 @@ export class EnemyEntity extends Entity {
     this.addComponent(new HealthComponent(100, 100));
     this.addComponent(new AttackComponent(enemyAttacks()));
     this.addComponent(new AIComponent());
+    this.addComponent(new BoundaryComponent(0, 1280, 500, 720));
   }
 }
