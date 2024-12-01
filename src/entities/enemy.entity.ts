@@ -11,10 +11,8 @@ import { enemyAnimations, enemyAttacks } from "../config/enemy.config";
 import { Entity } from "./entity";
 
 export class EnemyEntity extends Entity {
-  constructor() {
+  constructor(x: number, y: number) {
     super();
-    const x = Math.floor(Math.random() * 1280);
-    const y = Math.floor(Math.random() * (720 - 500) + 500);
     this.addComponent(new PositionComponent(x, y));
     this.addComponent(new VelocityComponent(0, 0, 1));
     this.addComponent(new AnimatedSpriteComponent(enemyAnimations()));

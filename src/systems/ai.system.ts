@@ -1,21 +1,30 @@
+import { AIConfigComponent } from "../components/ai-config.component";
 import { AIComponent } from "../components/ai.component";
 import { ColliderComponent } from "../components/collider.component";
 import { PositionComponent } from "../components/position.component";
 import { StateComponent } from "../components/state.component";
 import { VelocityComponent } from "../components/velocity.component";
 import { Entity } from "../entities/entity";
+import { GameManagerEntity } from "../entities/game-manager.entity";
 import { PlayerEntity } from "../entities/player.entity";
 import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class AISystem extends System {
-  private playerDetectionRadius = 150;
-  private enemydetectionRadius = 100;
-  private attackProbability = 0.1;
+  private aiConfig: AIConfigComponent;
 
-  constructor(private player: PlayerEntity) {
+  constructor(
+    private player: PlayerEntity,
+    private gameManager: GameManagerEntity,
+  ) {
     super();
+    const aiConfig = this.gameManager.getComponent(AIConfigComponent);
+    if (isNullOrUndefined(aiConfig)) {
+      throw new Error("AIConfigComponent not found");
+    }
+    this.aiConfig = aiConfig;
   }
+
   update(entities: Entity[], deltaTime: number): void {
     const playerPosition = this.player.getComponent(PositionComponent);
     if (isNullOrUndefined(playerPosition)) {
@@ -91,7 +100,7 @@ export class AISystem extends System {
     if (!playerInRange) {
       return;
     }
-    if (Math.random() <= this.attackProbability) {
+    if (Math.random() <= this.aiConfig.attackProbability) {
       ai.changeState("attacking");
       return;
     }
@@ -126,7 +135,7 @@ export class AISystem extends System {
   ): boolean {
     const dx = playerPosition.x - position.x;
     const dy = playerPosition.y - position.y;
-    return Math.hypot(dy, dx) <= this.playerDetectionRadius;
+    return Math.hypot(dy, dx) <= this.aiConfig.playerDetectionRadius;
   }
 
   private moveTowardsPlayer(
@@ -175,7 +184,7 @@ export class AISystem extends System {
       const tempCollider = new ColliderComponent(
         position.x + directionX * velocity.speed,
         position.y + directionY * velocity.speed,
-        this.enemydetectionRadius,
+        this.aiConfig.enemyDetectionRadius,
       );
 
       if (tempCollider.isColliding(otherCollider)) {

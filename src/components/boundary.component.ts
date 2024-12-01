@@ -2,10 +2,10 @@ import { Component } from "./component";
 
 export class BoundaryComponent extends Component {
   constructor(
-    private minX: number,
-    private maxX: number,
-    private minY: number,
-    private maxY: number,
+    public readonly minX: number,
+    public readonly maxX: number,
+    public readonly minY: number,
+    public readonly maxY: number,
   ) {
     super();
   }
