@@ -5,9 +5,20 @@ import { isDefined, isNullOrUndefined } from "../utils/helpers";
 import { AnimatedSpriteComponent } from "../components/animated-sprite.component";
 import { VelocityComponent } from "../components/velocity.component";
 import { LifespanComponent } from "../components/lifespan.component";
+import { GameManagerEntity } from "../entities/game-manager.entity";
+import { GameStateComponent } from "../components/game-state.component";
 
 export class StateSystem extends System {
+  constructor(private gameManager: GameManagerEntity) {
+    super();
+  }
+
   update(entities: Entity[]): void {
+    const gameState = this.gameManager.getComponent(GameStateComponent);
+    if (isNullOrUndefined(gameState)) {
+      return;
+    }
+
     entities.forEach((entity) => {
       const state = entity.getComponent(StateComponent);
       if (isNullOrUndefined(state)) {
@@ -16,7 +27,7 @@ export class StateSystem extends System {
 
       const animation = entity.getComponent(AnimatedSpriteComponent);
       const velocity = entity.getComponent(VelocityComponent);
-      this.cleanup(entity, state);
+      this.cleanup(entity, state, gameState);
       this.updateAnimation(state, animation);
       this.updateMovement(state, animation, velocity);
     });
@@ -57,12 +68,17 @@ export class StateSystem extends System {
     state.changeState("idle");
   }
 
-  private cleanup(entity: Entity, state: StateComponent): void {
+  private cleanup(
+    entity: Entity,
+    state: StateComponent,
+    gameState: GameStateComponent,
+  ): void {
     if (state.getState() !== "dead" || entity.hasComponent(LifespanComponent)) {
       return;
     }
 
     entity.removeComponent(VelocityComponent);
     entity.addComponent(new LifespanComponent(5));
+    gameState.killEnemy();
   }
 }
