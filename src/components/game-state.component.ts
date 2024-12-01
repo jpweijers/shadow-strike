@@ -35,5 +35,10 @@ export class GameStateComponent extends Component {
     this.enemiesKilled++;
     this.enemiesAlive--;
     this.score += 100;
+
+    if (this.enemiesKilled % 5 === 0) {
+      this.maxEnemies++;
+      this.spawnRate *= 0.9;
+    }
   }
 }
