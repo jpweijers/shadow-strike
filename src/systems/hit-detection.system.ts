@@ -3,8 +3,9 @@ import { ColliderComponent } from "../components/collider.component";
 import { HealthComponent } from "../components/health.component";
 import { StateComponent } from "../components/state.component";
 import { Entity } from "../entities/entity";
-import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
+import { AudioComponent } from "../components/audio.component";
+import { AudioManager } from "../core/audio-manager";
 
 export class HitDetectionSystem extends System {
   update(entities: Entity[]): void {
@@ -18,14 +19,15 @@ export class HitDetectionSystem extends System {
     entities.forEach((attackEntity) => {
       const attackDamage = attackEntity.getComponent(AttackDamageComponent);
       const attack = attackEntity.getComponent(ColliderComponent);
+      const attackSound = attackEntity.getComponent(AudioComponent);
 
-      if (isNullOrUndefined(attack) || isNullOrUndefined(attackDamage)) {
+      if (!attack || !attackDamage || !attackSound) {
         return;
       }
 
       const ownerState = attackDamage.owner.getComponent(StateComponent);
 
-      if (isNullOrUndefined(ownerState) || !ownerState.isAttacking()) {
+      if (!ownerState || !ownerState.isAttacking()) {
         return;
       }
 
@@ -33,7 +35,7 @@ export class HitDetectionSystem extends System {
         const collision = collisionEntity.getComponent(ColliderComponent);
         const health = collisionEntity.getComponent(HealthComponent);
 
-        if (isNullOrUndefined(collision) || isNullOrUndefined(health)) {
+        if (!collision || !health) {
           return;
         }
 
@@ -53,8 +55,12 @@ export class HitDetectionSystem extends System {
         }
 
         if (attack.isColliding(collision)) {
+          AudioManager.getInstance().playSound(attackSound.getSound("hit"));
           health.takeDamage(attackDamage.damage);
+        } else {
+          AudioManager.getInstance().playSound(attackSound.getSound("miss"));
         }
+
         attackDamage.addDamagedEntity(collisionEntity);
       });
     });

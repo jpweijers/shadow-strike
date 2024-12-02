@@ -1,12 +1,11 @@
 import { GameLoop } from "./core/game-loop";
-import { isNullOrUndefined } from "./utils/helpers";
 
 const DEBUG = process.env.NODE_ENV === "development";
 
 window.addEventListener("load", () => {
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
-  if (isNullOrUndefined(canvas)) {
+  if (!canvas) {
     throw new Error("Canvas not found");
   }
 
@@ -15,7 +14,7 @@ window.addEventListener("load", () => {
 
   const ctx = canvas.getContext("2d");
 
-  if (isNullOrUndefined(ctx)) {
+  if (!ctx) {
     throw new Error("Canvas context not found");
   }
 

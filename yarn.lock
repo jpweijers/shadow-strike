@@ -687,7 +687,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@parcel/plugin@npm:2.13.2":
+"@parcel/plugin@npm:2.13.2, @parcel/plugin@npm:^2.0.0-beta.1":
   version: 2.13.2
   resolution: "@parcel/plugin@npm:2.13.2"
   dependencies:
@@ -3153,6 +3153,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"parcel-reporter-static-files-copy@npm:^1.5.3":
+  version: 1.5.3
+  resolution: "parcel-reporter-static-files-copy@npm:1.5.3"
+  dependencies:
+    "@parcel/plugin": "npm:^2.0.0-beta.1"
+  checksum: 10c0/02a0067c61d131558bfd3f74e2edbd016f26e95e0c3619642db8b75b47429824ee08cc0176f8740cf93a5794c2e408da845bf6165b15b11d91d34a5c9223605a
+  languageName: node
+  linkType: hard
+
 "parcel@npm:^2.13.2":
   version: 2.13.2
   resolution: "parcel@npm:2.13.2"
@@ -3406,6 +3415,7 @@ __metadata:
     eslint: "npm:^9.15.0"
     husky: "npm:^9.1.7"
     parcel: "npm:^2.13.2"
+    parcel-reporter-static-files-copy: "npm:^1.5.3"
     typescript: "npm:^5.7.2"
     typescript-eslint: "npm:^8.16.0"
   languageName: unknown

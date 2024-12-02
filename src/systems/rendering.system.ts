@@ -5,7 +5,6 @@ import {
 import { PositionComponent } from "../components/position.component";
 import { StateComponent } from "../components/state.component";
 import { Entity } from "../entities/entity";
-import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class RenderingSystem extends System {
@@ -25,11 +24,7 @@ export class RenderingSystem extends System {
       const animatedSprite = entity.getComponent(AnimatedSpriteComponent);
       const state = entity.getComponent(StateComponent);
 
-      if (
-        isNullOrUndefined(position) ||
-        isNullOrUndefined(animatedSprite) ||
-        isNullOrUndefined(state)
-      ) {
+      if (!position || !animatedSprite || !state) {
         return;
       }
 
@@ -41,7 +36,6 @@ export class RenderingSystem extends System {
     });
 
     renderingStack.sort((a, b) => a.position.y - b.position.y);
-    //console.log(`Rendering ${renderingStack.length} entities`);
     renderingStack.forEach(({ position, sprite, mirror }) => {
       this.render(position, sprite, mirror);
     });
@@ -52,7 +46,7 @@ export class RenderingSystem extends System {
     sprite: AnimatedSprite,
     mirror: boolean = false,
   ): void {
-    if (isNullOrUndefined(sprite)) {
+    if (!sprite) {
       return;
     }
     this.context.save();

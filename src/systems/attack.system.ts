@@ -3,7 +3,6 @@ import { Entity } from "../entities/entity";
 import { System } from "./system";
 import { Engine } from "../core/engine";
 import { AttackEntity } from "../entities/attack.entity";
-import { isNullOrUndefined } from "../utils/helpers";
 import { StateComponent } from "../components/state.component";
 import { AttackDamageComponent } from "../components/attack-damage.component";
 import { LifespanComponent } from "../components/lifespan.component";
@@ -26,7 +25,7 @@ export class AttackSystem extends System {
     const position = entity.getComponent(PositionComponent);
     const state = entity.getComponent(StateComponent);
 
-    if (isNullOrUndefined(position) || isNullOrUndefined(state)) {
+    if (!position || !state) {
       return;
     }
 
@@ -35,7 +34,7 @@ export class AttackSystem extends System {
         .getComponent(AttackComponent)
         ?.getAttack(state.getState() as AttackType);
 
-      if (isNullOrUndefined(attack)) {
+      if (!attack) {
         return;
       }
 
@@ -60,13 +59,13 @@ export class AttackSystem extends System {
     const attack = entity.getComponent(AttackDamageComponent);
     const lifespan = entity.getComponent(LifespanComponent);
 
-    if (isNullOrUndefined(attack) || isNullOrUndefined(lifespan)) {
+    if (!attack || !lifespan) {
       return;
     }
 
     const ownerState = attack.owner.getComponent(StateComponent);
 
-    if (isNullOrUndefined(ownerState)) {
+    if (!ownerState) {
       return;
     }
 

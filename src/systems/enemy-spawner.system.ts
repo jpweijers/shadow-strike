@@ -6,7 +6,6 @@ import { Engine } from "../core/engine";
 import { EnemyEntity } from "../entities/enemy.entity";
 import { Entity } from "../entities/entity";
 import { GameManagerEntity } from "../entities/game-manager.entity";
-import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class EnemySpawnerSystem extends System {
@@ -23,11 +22,7 @@ export class EnemySpawnerSystem extends System {
     const aiConfig = this.gameManager.getComponent(AIConfigComponent);
     const gameState = this.gameManager.getComponent(GameStateComponent);
     const boundary = this.gameManager.getComponent(BoundaryComponent);
-    if (
-      isNullOrUndefined(aiConfig) ||
-      isNullOrUndefined(gameState) ||
-      isNullOrUndefined(boundary)
-    ) {
+    if (!aiConfig || !gameState || !boundary) {
       throw new Error(
         "EnemySpawnerSystem requires GameManagerEntity to have AIConfigComponent, BoundaryComponent, and GameStateComponent",
       );
@@ -50,7 +45,7 @@ export class EnemySpawnerSystem extends System {
 
     this.lastSpawnTime = 0;
     const [x, y] = this.findSpawnLocation(entities);
-    if (isNullOrUndefined(x) || isNullOrUndefined(y)) {
+    if (!x || !y) {
       return;
     }
     this.engine.addEntity(new EnemyEntity(x, y));
@@ -77,7 +72,7 @@ export class EnemySpawnerSystem extends System {
       locationFound = entities.every((entity) => {
         const position = entity.getComponent(PositionComponent);
 
-        if (isNullOrUndefined(position)) {
+        if (!position) {
           return true;
         }
 

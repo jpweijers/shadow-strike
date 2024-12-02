@@ -2,7 +2,6 @@ import { VelocityComponent } from "../components/velocity.component";
 import { InputComponent } from "../components/input.component";
 import { Entity } from "../entities/entity";
 import { System } from "./system";
-import { isNullOrUndefined } from "../utils/helpers";
 import { StateComponent } from "../components/state.component";
 
 export class InputProcessingSystem extends System {
@@ -19,11 +18,7 @@ export class InputProcessingSystem extends System {
       const velocity = entity.getComponent(VelocityComponent);
       const state = entity.getComponent(StateComponent);
 
-      if (
-        isNullOrUndefined(input) ||
-        isNullOrUndefined(velocity) ||
-        isNullOrUndefined(state)
-      ) {
+      if (!input || !velocity || !state) {
         return;
       }
 

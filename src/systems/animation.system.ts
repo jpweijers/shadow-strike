@@ -1,6 +1,5 @@
 import { AnimatedSpriteComponent } from "../components/animated-sprite.component";
 import { Entity } from "../entities/entity";
-import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class AnimationSystem extends System {
@@ -12,13 +11,13 @@ export class AnimationSystem extends System {
     animatedEntities.forEach((entity) => {
       const animatedSprite = entity.getComponent(AnimatedSpriteComponent);
 
-      if (isNullOrUndefined(animatedSprite)) {
+      if (!animatedSprite) {
         return;
       }
 
       const animation = animatedSprite.getAnimation();
 
-      if (isNullOrUndefined(animation)) {
+      if (!animation) {
         return;
       }
 

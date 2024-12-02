@@ -4,7 +4,6 @@ import { ColliderComponent } from "../components/collider.component";
 import { PositionComponent } from "../components/position.component";
 import { VelocityComponent } from "../components/velocity.component";
 import { Entity } from "../entities/entity";
-import { isDefined, isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class MovementSystem extends System {
@@ -23,21 +22,17 @@ export class MovementSystem extends System {
       const boundary = entity.getComponent(BoundaryComponent);
       const ai = entity.getComponent(AIComponent);
 
-      if (
-        isNullOrUndefined(position) ||
-        isNullOrUndefined(velocity) ||
-        isNullOrUndefined(collider)
-      ) {
+      if (!position || !velocity || !collider) {
         return;
       }
 
       if (
-        isDefined(boundary) &&
+        boundary &&
         !boundary.isInBoundary(
           position.x + velocity.dx,
           position.y + velocity.dy,
         ) &&
-        isNullOrUndefined(ai)
+        !ai
       ) {
         return;
       }
@@ -60,7 +55,7 @@ export class MovementSystem extends System {
     let isColliding = false;
     others.forEach((other) => {
       const collider = other.getComponent(ColliderComponent);
-      if (isNullOrUndefined(collider)) {
+      if (!collider) {
         return;
       }
       if (collider === self) {

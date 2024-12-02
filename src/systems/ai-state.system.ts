@@ -1,7 +1,6 @@
 import { AIComponent } from "../components/ai.component";
 import { State, StateComponent } from "../components/state.component";
 import { Entity } from "../entities/entity";
-import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class AIStateSystem extends System {
@@ -10,7 +9,7 @@ export class AIStateSystem extends System {
       const ai = entity.getComponent(AIComponent);
       const state = entity.getComponent(StateComponent);
 
-      if (isNullOrUndefined(ai) || isNullOrUndefined(state)) {
+      if (!(ai) || !(state)) {
         return;
       }
 

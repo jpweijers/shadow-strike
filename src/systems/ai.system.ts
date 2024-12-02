@@ -7,7 +7,6 @@ import { VelocityComponent } from "../components/velocity.component";
 import { Entity } from "../entities/entity";
 import { GameManagerEntity } from "../entities/game-manager.entity";
 import { PlayerEntity } from "../entities/player.entity";
-import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class AISystem extends System {
@@ -19,7 +18,7 @@ export class AISystem extends System {
   ) {
     super();
     const aiConfig = this.gameManager.getComponent(AIConfigComponent);
-    if (isNullOrUndefined(aiConfig)) {
+    if (!aiConfig) {
       throw new Error("AIConfigComponent not found");
     }
     this.aiConfig = aiConfig;
@@ -27,7 +26,7 @@ export class AISystem extends System {
 
   update(entities: Entity[], deltaTime: number): void {
     const playerPosition = this.player.getComponent(PositionComponent);
-    if (isNullOrUndefined(playerPosition)) {
+    if (!playerPosition) {
       return;
     }
 
@@ -39,13 +38,7 @@ export class AISystem extends System {
       const velocity = entity.getComponent(VelocityComponent);
       const state = entity.getComponent(StateComponent);
 
-      if (
-        isNullOrUndefined(ai) ||
-        isNullOrUndefined(position) ||
-        isNullOrUndefined(velocity) ||
-        isNullOrUndefined(state) ||
-        isNullOrUndefined(collider)
-      ) {
+      if (!ai || !position || !velocity || !state || !collider) {
         return;
       }
 
@@ -165,8 +158,8 @@ export class AISystem extends System {
       const otherCollider = entity.getComponent(ColliderComponent);
 
       if (
-        isNullOrUndefined(otherPosition) ||
-        isNullOrUndefined(otherCollider) ||
+        !otherPosition ||
+        !otherCollider ||
         otherPosition.id === position.id ||
         otherPosition.id === playerPosition.id
       ) {

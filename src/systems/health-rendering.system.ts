@@ -1,7 +1,6 @@
 import { HealthComponent } from "../components/health.component";
 import { PositionComponent } from "../components/position.component";
 import { Entity } from "../entities/entity";
-import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class HealthRenderingSystem extends System {
@@ -14,7 +13,7 @@ export class HealthRenderingSystem extends System {
       const health = entity.getComponent(HealthComponent);
       const position = entity.getComponent(PositionComponent);
 
-      if (isNullOrUndefined(health) || isNullOrUndefined(position)) {
+      if (!health || !position) {
         return;
       }
 

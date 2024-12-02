@@ -3,4 +3,5 @@
   "transformers": {
     "*.{ts,tsx}": ["@parcel/transformer-typescript-tsc"]
   },
+  "reporters": ["...", "parcel-reporter-static-files-copy"]
 }
