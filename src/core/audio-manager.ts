@@ -3,12 +3,12 @@ export class AudioManager {
   private audioCache: Map<string, HTMLAudioElement>;
   private globalVolume: number;
 
-  constructor() {
+  private constructor() {
     this.audioCache = new Map();
     this.globalVolume = 1;
   }
 
-  static getInstance(): AudioManager {
+  public static getInstance(): AudioManager {
     if (!AudioManager.instance) {
       AudioManager.instance = new AudioManager();
     }

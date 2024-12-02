@@ -4,20 +4,12 @@ import { System } from "./system";
 import { AnimatedSpriteComponent } from "../components/animated-sprite.component";
 import { VelocityComponent } from "../components/velocity.component";
 import { LifespanComponent } from "../components/lifespan.component";
-import { GameManagerEntity } from "../entities/game-manager.entity";
-import { GameStateComponent } from "../components/game-state.component";
 import { ColliderComponent } from "../components/collider.component";
+import { GameManager } from "../core/game-manager";
 
 export class StateSystem extends System {
-  constructor(private gameManager: GameManagerEntity) {
-    super();
-  }
-
   update(entities: Entity[]): void {
-    const gameState = this.gameManager.getComponent(GameStateComponent);
-    if (!gameState) {
-      return;
-    }
+    const gameManager = GameManager.getInstance();
 
     entities.forEach((entity) => {
       const state = entity.getComponent(StateComponent);
@@ -27,7 +19,7 @@ export class StateSystem extends System {
 
       const animation = entity.getComponent(AnimatedSpriteComponent);
       const velocity = entity.getComponent(VelocityComponent);
-      this.cleanup(entity, state, gameState);
+      this.cleanup(entity, state, gameManager);
       this.updateAnimation(state, animation);
       this.updateMovement(state, animation, velocity);
     });
@@ -71,15 +63,16 @@ export class StateSystem extends System {
   private cleanup(
     entity: Entity,
     state: StateComponent,
-    gameState: GameStateComponent,
+    gameManager: GameManager,
   ): void {
     if (state.getState() !== "dead" || entity.hasComponent(LifespanComponent)) {
+      // only kill entities that are not already dead
       return;
     }
 
     entity.removeComponent(VelocityComponent);
     entity.removeComponent(ColliderComponent);
     entity.addComponent(new LifespanComponent(5));
-    gameState.killEnemy();
+    gameManager.killEnemy();
   }
 }
