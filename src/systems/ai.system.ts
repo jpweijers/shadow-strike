@@ -1,27 +1,16 @@
-import { AIConfigComponent } from "../components/ai-config.component";
 import { AIComponent } from "../components/ai.component";
 import { ColliderComponent } from "../components/collider.component";
 import { PositionComponent } from "../components/position.component";
 import { StateComponent } from "../components/state.component";
 import { VelocityComponent } from "../components/velocity.component";
+import { AIConfig, GameManager } from "../core/game-manager";
 import { Entity } from "../entities/entity";
-import { GameManagerEntity } from "../entities/game-manager.entity";
 import { PlayerEntity } from "../entities/player.entity";
 import { System } from "./system";
 
 export class AISystem extends System {
-  private aiConfig: AIConfigComponent;
-
-  constructor(
-    private player: PlayerEntity,
-    private gameManager: GameManagerEntity,
-  ) {
+  constructor(private player: PlayerEntity) {
     super();
-    const aiConfig = this.gameManager.getComponent(AIConfigComponent);
-    if (!aiConfig) {
-      throw new Error("AIConfigComponent not found");
-    }
-    this.aiConfig = aiConfig;
   }
 
   update(entities: Entity[], deltaTime: number): void {
@@ -29,6 +18,8 @@ export class AISystem extends System {
     if (!playerPosition) {
       return;
     }
+
+    const aiConfig = GameManager.getInstance().getAIConfig();
 
     entities.forEach((entity) => {
       // Do AI stuff
@@ -45,12 +36,17 @@ export class AISystem extends System {
       ai.update(deltaTime);
 
       const aiState = ai.getState();
-      const playerInRange = this.playerInRange(position, playerPosition);
+      const playerInRange = this.playerInRange(
+        position,
+        playerPosition,
+        aiConfig,
+      );
       const otherAIInTheWay = this.otherAIInTheWay(
         position,
         velocity,
         playerPosition,
         entities,
+        aiConfig,
       );
 
       if (aiState === "attacking" && state.getState() === "idle") {
@@ -60,7 +56,7 @@ export class AISystem extends System {
 
       switch (aiState) {
         case "idle":
-          this.handleIdleState(ai, playerInRange, otherAIInTheWay);
+          this.handleIdleState(ai, playerInRange, otherAIInTheWay, aiConfig);
           break;
         case "chasing":
           this.handleChasingState(
@@ -85,6 +81,7 @@ export class AISystem extends System {
     ai: AIComponent,
     playerInRange: boolean,
     otherAIInTheWay: boolean,
+    aiConfig: AIConfig,
   ): void {
     if (!playerInRange && !otherAIInTheWay) {
       ai.changeState("chasing");
@@ -93,7 +90,7 @@ export class AISystem extends System {
     if (!playerInRange) {
       return;
     }
-    if (Math.random() <= this.aiConfig.attackProbability) {
+    if (Math.random() <= aiConfig.attackProbability) {
       ai.changeState("attacking");
       return;
     }
@@ -125,10 +122,11 @@ export class AISystem extends System {
   private playerInRange(
     position: PositionComponent,
     playerPosition: PositionComponent,
+    aiConfig: AIConfig,
   ): boolean {
     const dx = playerPosition.x - position.x;
     const dy = playerPosition.y - position.y;
-    return Math.hypot(dy, dx) <= this.aiConfig.playerDetectionRadius;
+    return Math.hypot(dy, dx) <= aiConfig.playerDetectionRadius;
   }
 
   private moveTowardsPlayer(
@@ -152,6 +150,7 @@ export class AISystem extends System {
     velocity: VelocityComponent,
     playerPosition: PositionComponent,
     entities: Entity[],
+    aiConfig: AIConfig,
   ): boolean {
     return entities.some((entity) => {
       const otherPosition = entity.getComponent(PositionComponent);
@@ -177,7 +176,7 @@ export class AISystem extends System {
       const tempCollider = new ColliderComponent(
         position.x + directionX * velocity.speed,
         position.y + directionY * velocity.speed,
-        this.aiConfig.enemyDetectionRadius,
+        aiConfig.enemyDetectionRadius,
       );
 
       if (tempCollider.isColliding(otherCollider)) {

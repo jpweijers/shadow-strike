@@ -1,4 +1,3 @@
-import { GameManagerEntity } from "../entities/game-manager.entity";
 import { PlayerEntity } from "../entities/player.entity";
 import { WorldEntity } from "../entities/world.entity";
 import { AIStateSystem } from "../systems/ai-state.system";
@@ -24,25 +23,19 @@ export class GameLoop {
   private lastTime: number = 0;
   private engine: Engine = new Engine();
   private player: PlayerEntity;
-  private gameManager: GameManagerEntity;
 
   constructor(
     private context: CanvasRenderingContext2D,
     debug: boolean = false,
   ) {
     this.engine.addEntity(new WorldEntity());
-    this.gameManager = this.engine.addEntity(
-      new GameManagerEntity(context.canvas.width, context.canvas.height),
-    );
     this.player = this.engine.addEntity(new PlayerEntity());
 
-    this.engine.addSystem(
-      new EnemySpawnerSystem(this.engine, this.gameManager),
-    );
+    this.engine.addSystem(new EnemySpawnerSystem(this.engine));
 
     this.engine.addSystem(new InputSystem(this.engine));
     this.engine.addSystem(new InputProcessingSystem());
-    this.engine.addSystem(new AISystem(this.player, this.gameManager));
+    this.engine.addSystem(new AISystem(this.player));
     this.engine.addSystem(new AIStateSystem());
     this.engine.addSystem(new MovementSystem());
     this.engine.addSystem(new AttackSystem(this.engine));
@@ -50,7 +43,7 @@ export class GameLoop {
     this.engine.addSystem(new HitDetectionSystem());
     this.engine.addSystem(new LifespanSystem(this.engine));
     this.engine.addSystem(new HealthSystem());
-    this.engine.addSystem(new StateSystem(this.gameManager));
+    this.engine.addSystem(new StateSystem());
 
     this.engine.addSystem(new BackgroundRenderingSystem(this.context));
     if (debug) {
