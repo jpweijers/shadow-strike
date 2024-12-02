@@ -12,7 +12,7 @@ export class AudioSystem extends System {
         return;
       }
 
-      audio.play();
+      //audio.play();
     });
   }
 }

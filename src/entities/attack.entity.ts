@@ -5,6 +5,12 @@ import { LifespanComponent } from "../components/lifespan.component";
 import { PositionComponent } from "../components/position.component";
 import { Entity } from "./entity";
 
+const sounds = (): Map<string, HTMLAudioElement> =>
+  new Map<string, HTMLAudioElement>([
+    ["hit", new Audio("sounds/hit.wav")],
+    ["miss", new Audio("sounds/miss.wav")],
+  ]);
+
 export class AttackEntity extends Entity {
   constructor(
     x: number,
@@ -19,6 +25,6 @@ export class AttackEntity extends Entity {
     this.addComponent(new ColliderComponent(x, y, radius));
     this.addComponent(new AttackDamageComponent(owner, damage));
     this.addComponent(new LifespanComponent(duration));
-    this.addComponent(new AudioComponent("sounds/attack.wav", 1, false));
+    this.addComponent(new AudioComponent(sounds(), 1, false));
   }
 }

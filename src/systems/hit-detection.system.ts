@@ -5,6 +5,7 @@ import { StateComponent } from "../components/state.component";
 import { Entity } from "../entities/entity";
 import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
+import { AudioComponent } from "../components/audio.component";
 
 export class HitDetectionSystem extends System {
   update(entities: Entity[]): void {
@@ -18,8 +19,13 @@ export class HitDetectionSystem extends System {
     entities.forEach((attackEntity) => {
       const attackDamage = attackEntity.getComponent(AttackDamageComponent);
       const attack = attackEntity.getComponent(ColliderComponent);
+      const attackSound = attackEntity.getComponent(AudioComponent);
 
-      if (isNullOrUndefined(attack) || isNullOrUndefined(attackDamage)) {
+      if (
+        isNullOrUndefined(attack) ||
+        isNullOrUndefined(attackDamage) ||
+        isNullOrUndefined(attackSound)
+      ) {
         return;
       }
 
@@ -53,8 +59,12 @@ export class HitDetectionSystem extends System {
         }
 
         if (attack.isColliding(collision)) {
+          attackSound.play("hit");
           health.takeDamage(attackDamage.damage);
+        } else {
+          attackSound.play("miss");
         }
+
         attackDamage.addDamagedEntity(collisionEntity);
       });
     });

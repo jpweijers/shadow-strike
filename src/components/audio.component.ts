@@ -1,31 +1,36 @@
+import { isNullOrUndefined } from "../utils/helpers";
 import { Component } from "./component";
 
 export class AudioComponent extends Component {
-  private audio: HTMLAudioElement;
-
   constructor(
-    public readonly url: string,
+    private readonly sounds: Map<string, HTMLAudioElement>,
     public readonly volume: number,
-    loop: boolean,
+    public readonly loop: boolean,
   ) {
     super();
-    this.audio = new Audio(url);
-    this.audio.volume = volume;
 
-    this.audio.addEventListener("ended", () => {
-      this.audio.currentTime = 0;
-      if (loop) {
-        this.play();
-      }
+    this.sounds.forEach((sound, key) => {
+      sound.volume = volume;
+      sound.addEventListener("ended", () => {
+        if (loop) {
+          sound.currentTime = 0;
+          this.play(key);
+        }
+      });
     });
   }
 
-  play(): void {
-    if (this.audio.currentTime > 0) {
+  play(key: string): void {
+    const sound = this.sounds.get(key);
+
+    if (isNullOrUndefined(sound)) {
       return;
     }
-    this.audio.play().catch((error) => {
-      console.error(`Error playing audio: ${error}`);
-    });
+
+    if (sound.currentTime > 0) {
+      return;
+    }
+
+    sound.play();
   }
 }
