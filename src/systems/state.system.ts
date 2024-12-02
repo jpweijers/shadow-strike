@@ -1,7 +1,6 @@
 import { StateComponent } from "../components/state.component";
 import { Entity } from "../entities/entity";
 import { System } from "./system";
-import { isDefined, isNullOrUndefined } from "../utils/helpers";
 import { AnimatedSpriteComponent } from "../components/animated-sprite.component";
 import { VelocityComponent } from "../components/velocity.component";
 import { LifespanComponent } from "../components/lifespan.component";
@@ -16,13 +15,13 @@ export class StateSystem extends System {
 
   update(entities: Entity[]): void {
     const gameState = this.gameManager.getComponent(GameStateComponent);
-    if (isNullOrUndefined(gameState)) {
+    if (!gameState) {
       return;
     }
 
     entities.forEach((entity) => {
       const state = entity.getComponent(StateComponent);
-      if (isNullOrUndefined(state)) {
+      if (!state) {
         return;
       }
 
@@ -38,7 +37,7 @@ export class StateSystem extends System {
     state: StateComponent,
     animation?: AnimatedSpriteComponent,
   ): void {
-    if (isDefined(animation)) {
+    if (animation) {
       animation.changeAnimation(state.getState(), state.getDirection());
     }
   }
@@ -48,7 +47,7 @@ export class StateSystem extends System {
     animation?: AnimatedSpriteComponent,
     velocity?: VelocityComponent,
   ): void {
-    if (isNullOrUndefined(animation) || isNullOrUndefined(velocity)) {
+    if (!animation || !velocity) {
       return;
     }
 

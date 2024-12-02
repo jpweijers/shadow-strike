@@ -1,6 +1,5 @@
 import { GameStateComponent } from "../components/game-state.component";
 import { Entity } from "../entities/entity";
-import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class GameStateRenderingSystem extends System {
@@ -11,7 +10,7 @@ export class GameStateRenderingSystem extends System {
   update(entities: Entity[]): void {
     entities.forEach((entity) => {
       const gameState = entity.getComponent(GameStateComponent);
-      if (isNullOrUndefined(gameState)) {
+      if (!gameState) {
         return;
       }
 

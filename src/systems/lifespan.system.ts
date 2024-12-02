@@ -1,7 +1,6 @@
 import { LifespanComponent } from "../components/lifespan.component";
 import { Engine } from "../core/engine";
 import { Entity } from "../entities/entity";
-import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class LifespanSystem extends System {
@@ -13,7 +12,7 @@ export class LifespanSystem extends System {
     entities.forEach((entity) => {
       const lifespan = entity.getComponent(LifespanComponent);
 
-      if (isNullOrUndefined(lifespan)) {
+      if (!lifespan) {
         return;
       }
 

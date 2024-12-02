@@ -4,7 +4,6 @@ import {
 } from "../components/background.component";
 import { BattleGroundComponent } from "../components/battle-ground.component";
 import { Entity } from "../entities/entity";
-import { isDefined } from "../utils/helpers";
 import { System } from "./system";
 
 export class BackgroundRenderingSystem extends System {
@@ -19,14 +18,14 @@ export class BackgroundRenderingSystem extends System {
       const background = entity.getComponent(BackgroundComponent);
       const ground = entity.getComponent(BattleGroundComponent);
 
-      if (isDefined(background)) {
+      if (background) {
         background.getLayers().forEach((layer) => {
           this.render(layer);
         });
         background.update();
       }
 
-      if (isDefined(ground)) {
+      if (ground) {
         this.render(ground.getLayer());
       }
     });

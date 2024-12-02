@@ -1,7 +1,6 @@
 import { System } from "./system";
 import { Entity } from "../entities/entity";
 import { ColliderComponent } from "../components/collider.component";
-import { isNullOrUndefined } from "../utils/helpers";
 
 export class CollisionRenderingSystem extends System {
   constructor(private context: CanvasRenderingContext2D) {
@@ -12,7 +11,7 @@ export class CollisionRenderingSystem extends System {
     entities.forEach((entity) => {
       const collider = entity.getComponent(ColliderComponent);
 
-      if (isNullOrUndefined(collider)) {
+      if (!collider) {
         return;
       }
 

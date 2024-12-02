@@ -1,4 +1,3 @@
-import { isDefined } from "../utils/helpers";
 import { Component } from "./component";
 import { State } from "./state.component";
 import { Direction } from "./velocity.component";
@@ -47,7 +46,7 @@ export class AnimatedSpriteComponent extends Component {
       throw new Error(`Animation ${state} not found`);
     }
 
-    if (isDefined(direction)) {
+    if (direction) {
       this._mirror = direction === "left";
     }
 
