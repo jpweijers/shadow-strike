@@ -6,6 +6,7 @@ import { Entity } from "../entities/entity";
 import { isNullOrUndefined } from "../utils/helpers";
 import { System } from "./system";
 import { AudioComponent } from "../components/audio.component";
+import { AudioManager } from "../core/audio-manager";
 
 export class HitDetectionSystem extends System {
   update(entities: Entity[]): void {
@@ -59,10 +60,10 @@ export class HitDetectionSystem extends System {
         }
 
         if (attack.isColliding(collision)) {
-          attackSound.play("hit");
+          AudioManager.getInstance().playSound(attackSound.getSound("hit"));
           health.takeDamage(attackDamage.damage);
         } else {
-          attackSound.play("miss");
+          AudioManager.getInstance().playSound(attackSound.getSound("miss"));
         }
 
         attackDamage.addDamagedEntity(collisionEntity);

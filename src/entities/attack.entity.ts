@@ -5,10 +5,10 @@ import { LifespanComponent } from "../components/lifespan.component";
 import { PositionComponent } from "../components/position.component";
 import { Entity } from "./entity";
 
-const sounds = (): Map<string, HTMLAudioElement> =>
-  new Map<string, HTMLAudioElement>([
-    ["hit", new Audio("sounds/hit.wav")],
-    ["miss", new Audio("sounds/miss.wav")],
+const sounds = (): Map<string, string> =>
+  new Map<string, string>([
+    ["hit", "sounds/hit.wav"],
+    ["miss", "sounds/miss.wav"],
   ]);
 
 export class AttackEntity extends Entity {

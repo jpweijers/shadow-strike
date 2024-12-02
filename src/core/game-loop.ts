@@ -5,7 +5,6 @@ import { AIStateSystem } from "../systems/ai-state.system";
 import { AISystem } from "../systems/ai.system";
 import { AnimationSystem } from "../systems/animation.system";
 import { AttackSystem } from "../systems/attack.system";
-import { AudioSystem } from "../systems/audio.system";
 import { BackgroundRenderingSystem } from "../systems/background-rendering.system";
 import { CollisionRenderingSystem } from "../systems/collision-rendering.system";
 import { EnemySpawnerSystem } from "../systems/enemy-spawner.system";
@@ -60,8 +59,6 @@ export class GameLoop {
     this.engine.addSystem(new RenderingSystem(this.context));
     this.engine.addSystem(new HealthRenderingSystem(this.context));
     this.engine.addSystem(new GameStateRenderingSystem(this.context));
-
-    this.engine.addSystem(new AudioSystem());
   }
 
   loop(time: number = 0): void {
